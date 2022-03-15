@@ -1,0 +1,10 @@
+.auth-form {
+  box-sizing: border-box;
+  background: var(--pd-color-surface-foreground);
+  margin: 0 auto;
+  max-width: 500px;
+  color: var(--pd-color-fill-strong);
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
