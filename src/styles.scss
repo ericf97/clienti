@@ -1,14 +1,30 @@
-/* You can add global styles to this file, and also import other style files */
+:root {
+  --white: #ffffff;
+  --gray: #f7f7f7;
+  --gray-2: #cbcccd;
+  --black: #333;
+}
+
 * {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji',
     'Segoe UI Emoji', 'Segoe UI Symbol';
-  font-size: 1rem;
-  color: #333;
+  font-size: 1rem; //16px default value
+  color: var(--black);
   box-sizing: border-box;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   padding: 0;
   margin: 0;
+}
+
+@media (max-width: 767px) {
+  * {
+    font-size: 0.9rem;
+  }
+}
+
+body {
+  background-color: var(--gray);
 }
 
 h1,
@@ -23,3 +39,122 @@ h6 {
 p {
   margin: 0;
 }
+
+input,
+textarea,
+button,
+select,
+a {
+  -webkit-tap-highlight-color: transparent;
+}
+
+/*#region FORM CHECKBOX*/
+.form__checkbox {
+  display: block;
+  position: relative;
+  padding-left: 30px;
+  margin-bottom: 12px;
+  cursor: pointer;
+  color: var(--gray-1);
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  input {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+    height: 0;
+    width: 0;
+  }
+  .checkmark {
+    position: absolute;
+    top: 0px;
+    left: 0;
+    height: 1.2rem;
+    width: 1.2rem;
+    background-color: #eee;
+    border: 2px solid var(--gray-2);
+    border-radius: 2px;
+  }
+}
+
+.form__checkbox:hover input ~ .checkmark {
+  background-color: var(--gray-1);
+}
+
+.checkmark:after {
+  content: '';
+  position: absolute;
+  display: none;
+}
+
+.form__checkbox input:checked ~ .checkmark:after {
+  display: block;
+}
+
+.form__checkbox .checkmark:after {
+  left: 4px;
+  top: 1px;
+  width: 4px;
+  height: 8px;
+  border: solid var(--black);
+  border-width: 0 2px 2px 0;
+  -webkit-transform: rotate(45deg);
+  -ms-transform: rotate(45deg);
+  transform: rotate(45deg);
+}
+/*#endregion*/
+
+/*#region FORM BUTTON*/
+.form__button {
+  cursor: pointer;
+  color: #fff;
+  background: #08a742;
+  font-weight: 700;
+  margin-bottom: 30px;
+  padding: 10px 20px;
+  font-size: 1.5rem;
+  outline: none;
+  -webkit-transition: all 0.3s ease-in-out;
+  transition: all 0.3s ease-in-out;
+  border: 0;
+  border-radius: 2px;
+  line-height: 1.4em;
+  &:hover {
+    background: #24b85a;
+  }
+}
+/*#endregion*/
+
+/*#region FORM INPUT*/
+.form__input {
+  display: flex;
+  width: 100%;
+  margin-bottom: 30px;
+  border-bottom: 2px solid var(--gray-2);
+  align-items: center;
+  .icon {
+    padding: 0 10px;
+    color: var(--black);
+    min-width: 20px;
+    text-align: center;
+    font-size: 1rem;
+  }
+  .form__input--field {
+    width: 100%;
+    padding: 10px;
+    outline: none;
+    border: none;
+  }
+  .form__input--forgot-password > a {
+    color: #888e94;
+    text-decoration: none;
+    font-size: 12px;
+  }
+}
+
+::placeholder {
+  color: var(--gray-2);
+}
+/*#endregion*/
