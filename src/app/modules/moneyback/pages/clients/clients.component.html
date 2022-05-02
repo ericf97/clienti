@@ -1,0 +1,21 @@
+<div class="container" fxLayoutAlign="center">
+  <mat-card fxFlex="50" fxFlex.sm="90" fxFlex.xs="90">
+    <mat-card-header>
+      <h2>Lista de clientes</h2>
+    </mat-card-header>
+    <mat-card-content>
+      <mat-list *ngFor="let client of clients" fxLayout="column">
+        <div fxLayoutAlign="space-between">
+          <p>{{ client.nombre }} {{ client.apellido }}</p>
+          <button
+            mat-button
+            [routerLink]="['/home/client', client.id]"
+            class="btn"
+          >
+            Ver más
+          </button>
+        </div>
+      </mat-list>
+    </mat-card-content>
+  </mat-card>
+</div>

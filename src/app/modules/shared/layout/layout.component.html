@@ -1,0 +1,40 @@
+<mat-sidenav-container fullscreen>
+  <mat-sidenav #sidenav mode="push" class="sidebar">
+    <mat-toolbar>
+      <button mat-icon-button (click)="sidenav.toggle()" routerLink="./home">
+        <mat-icon>home</mat-icon>
+        <span>Menu</span>
+      </button>
+    </mat-toolbar>
+    <mat-nav-list (click)="sidenav.toggle()">
+      <a mat-list-item routerLink="/home/clients">
+        <mat-icon mat-list-icon>search</mat-icon>
+        <span>Clientes</span>
+      </a>
+      <a mat-list-item routerLink="/home/calendar">
+        <mat-icon mat-list-icon>add</mat-icon>
+        <span>Calendario</span>
+      </a>
+      <a mat-list-item routerLink="/home/cases">
+        <mat-icon mat-list-icon>format_list_bulleted</mat-icon>
+        <span>Casos</span>
+      </a>
+    </mat-nav-list>
+  </mat-sidenav>
+
+  <mat-toolbar class="header" fxLayoutAlign="space-between center">
+    <div>
+      <button mat-icon-button (click)="sidenav.toggle()">
+        <mat-icon>menu</mat-icon>
+      </button>
+    </div>
+    <div fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="20px">
+      <span>Bienvenido Enzo</span>
+      <button class="btn-green" mat-button routerLink="./login">Logout</button>
+    </div>
+  </mat-toolbar>
+
+  <div class="container">
+    <router-outlet></router-outlet>
+  </div>
+</mat-sidenav-container>

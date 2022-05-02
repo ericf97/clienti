@@ -1,0 +1,17 @@
+<div class="container" fxLayoutAlign="center">
+  <mat-card fxFlex="50" fxFlex.xs="90" fxFlex.sm="90">
+    <mat-card-header>
+      <h2>Lista de casos disponibles</h2>
+    </mat-card-header>
+    <mat-card-content>
+      <mat-list *ngFor="let caso of casos">
+        <div fxLayoutAlign="space-between">
+          <p>{{ caso.titulo }}</p>
+          <button mat-button [routerLink]="['/home/case', caso.id]" class="btn">
+            Ver más
+          </button>
+        </div>
+      </mat-list>
+    </mat-card-content>
+  </mat-card>
+</div>

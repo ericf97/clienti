@@ -1,0 +1,56 @@
+<div class="container">
+  <div class="form">
+    <p class="form__title">LOG IN</p>
+    <p class="form__subtitle">Please log in to continue</p>
+    <!-- LOGIN FORM -->
+    <form [formGroup]="loginForm">
+      <!-- INPUT EMAIL -->
+      <div class="form__input">
+        <label for="email">
+          <i class="fa fa-envelope icon"></i>
+        </label>
+        <input
+          formControlName="user"
+          class="form__input--field"
+          type="text"
+          placeholder="Email"
+        />
+      </div>
+      <!-- INPUT PASSWORD -->
+      <div class="form__input">
+        <label for="password">
+          <i class="fa fa-lock icon"></i>
+        </label>
+        <input
+          formControlName="password"
+          class="form__input--field"
+          type="password"
+          placeholder="Password"
+        />
+        <!-- <span class="form__input--forgot-password">
+          <a href="">Forgot?</a>
+        </span> -->
+        <!-- <span>
+          <mat-icon>eye</mat-icon>
+        </span> -->
+      </div>
+    </form>
+
+    <!-- BUTTON LOGIN -->
+    <button
+      mat-button
+      class="form__button"
+      (click)="login()"
+      [disabled]="!loginForm.valid"
+      [routerLink]="['/home']"
+    >
+      Log in
+    </button>
+
+    <label class="form__checkbox"
+      >Remember me
+      <input type="checkbox" />
+      <span class="checkmark"></span>
+    </label>
+  </div>
+</div>
