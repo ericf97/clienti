@@ -20,3 +20,24 @@
   color: white;
 }
 
+.mobile{
+  display: none;
+  @media (max-width:990px) {
+    display: flex;
+  }
+}
+
+.home{
+  cursor: pointer;
+  .mat-icon{
+    font-size: 30px;
+    vertical-align: top;
+    margin-right: 8px;
+  }
+  span{
+    font-size: 22px;
+  }
+  @media (max-width:990px) {
+    display: none;
+  }
+}

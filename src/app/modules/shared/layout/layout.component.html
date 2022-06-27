@@ -1,5 +1,5 @@
 <mat-sidenav-container fullscreen>
-  <mat-sidenav #sidenav mode="push" class="sidebar">
+  <mat-sidenav #sidenav [mode]=" mobile ? 'push' : 'side'" class="sidebar">
     <mat-toolbar>
       <button mat-icon-button (click)="sidenav.toggle()" routerLink="./home">
         <mat-icon>home</mat-icon>
@@ -23,16 +23,23 @@
   </mat-sidenav>
 
   <mat-toolbar class="header" fxLayoutAlign="space-between center">
-    <div>
+    <div class="mobile">
       <button mat-icon-button (click)="sidenav.toggle()">
         <mat-icon>menu</mat-icon>
       </button>
+    </div>
+    <div>
+      <div class="home" routerLink="./home">
+        <mat-icon>home</mat-icon>
+        <span>Menu</span>
+      </div>
     </div>
     <div fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="20px">
       <span>Bienvenido Enzo</span>
       <button class="btn-green" mat-button routerLink="./login">Logout</button>
     </div>
   </mat-toolbar>
+  
 
   <div class="container">
     <router-outlet></router-outlet>
