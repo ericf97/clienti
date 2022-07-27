@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { AuthService } from '../../auth/services/auth.service';
 
 @Component({
   selector: 'app-layout',
@@ -7,11 +8,12 @@ import { Component, OnInit } from '@angular/core';
 })
 export class LayoutComponent implements OnInit {
 
-  mobile:boolean = false;
+  show:any;
 
-  constructor() { }
+  constructor( public auth: AuthService ) { }
 
   ngOnInit(): void {
+    this.show = this.auth.activeUser
   }
-
+  
 }

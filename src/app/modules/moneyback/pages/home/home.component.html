@@ -1,43 +1,18 @@
-<h1>Bienvenido Enzo</h1>
-<mat-divider></mat-divider>
-<br />
-
-<div
-  fxLayout="row wrap"
-  fxLayoutAlign="center"
-  fxLayoutGap="20px"
-  fxLayout.xs="column"
->
-  <div fxFlex="30">
-    <mat-card>
-      <mat-card-header>
-        <h2 routerLink="/home/clients">Clientes</h2>
-      </mat-card-header>
-      <mat-card-content>
-        <mat-list *ngFor="let client of clients">
-          <mat-list-item>{{ client.nombre }} {{client.apellido}}</mat-list-item>
-        </mat-list>
-      </mat-card-content>
-    </mat-card>
+<div class="container">
+  <div class="row">
+    <div class="d-flex justify-content-center">
+      <h1>Bienvenido Enzo</h1>
+    </div>
   </div>
-  <div fxFlex="30">
-    <mat-card>
-      <mat-card-header>
-        <h2>Calendar</h2>
-      </mat-card-header>
-      <mat-card-content> </mat-card-content>
-    </mat-card>
-  </div>
-  <div fxFlex="30">
-    <mat-card>
+  <mat-divider></mat-divider>
+  <div class="row mt-3">
+    <mat-card class="mb-card">
       <mat-card-header>
         <h2 routerLink="/home/cases">Casos</h2>
       </mat-card-header>
       <mat-card-content>
-        <mat-list *ngFor="let caso of casos">
-          <mat-list-item>
-            <p>{{ caso.id }}  {{ caso.titulo }}</p>
-          </mat-list-item>
+        <mat-list>
+          <mat-list-item>caso </mat-list-item>
         </mat-list>
       </mat-card-content>
     </mat-card>

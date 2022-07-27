@@ -1,0 +1,8 @@
+<mat-list-option
+  *ngFor="let nav of navList"
+  [routerLink]="nav.link"
+  [class.active]="true"
+>
+  <mat-icon>{{ nav.icon }}</mat-icon>
+  <h4>{{ nav.title }}</h4>
+</mat-list-option>

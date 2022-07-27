@@ -1,47 +1,20 @@
-<mat-sidenav-container fullscreen>
-  <mat-sidenav #sidenav [mode]=" mobile ? 'push' : 'side'" class="sidebar">
-    <mat-toolbar>
-      <button mat-icon-button (click)="sidenav.toggle()" routerLink="./home">
-        <mat-icon>home</mat-icon>
-        <span>Menu</span>
-      </button>
-    </mat-toolbar>
-    <mat-nav-list (click)="sidenav.toggle()">
-      <a mat-list-item routerLink="/home/clients">
-        <mat-icon mat-list-icon>search</mat-icon>
-        <span>Clientes</span>
-      </a>
-      <a mat-list-item routerLink="/home/calendar">
-        <mat-icon mat-list-icon>add</mat-icon>
-        <span>Calendario</span>
-      </a>
-      <a mat-list-item routerLink="/home/cases">
-        <mat-icon mat-list-icon>format_list_bulleted</mat-icon>
-        <span>Casos</span>
-      </a>
-    </mat-nav-list>
+<mat-sidenav-container fullscreen class="content">
+  <mat-sidenav #sidenav class="sidebar">
+    <app-mobile-sidenav (closeSidenav)="sidenav.close()"></app-mobile-sidenav>
   </mat-sidenav>
-
-  <mat-toolbar class="header" fxLayoutAlign="space-between center">
-    <div class="mobile">
-      <button mat-icon-button (click)="sidenav.toggle()">
-        <mat-icon>menu</mat-icon>
-      </button>
+  <mat-sidenav-content>
+    <div class="row header">
+      <app-header (toggleSidenav)="sidenav.toggle()"></app-header>
     </div>
-    <div>
-      <div class="home" routerLink="./home">
-        <mat-icon>home</mat-icon>
-        <span>Menu</span>
+    <div class="layout-container">
+      <div class="row">
+        <div class="col-2 layout-sidenav" *ngIf="show">
+          <app-sidenav></app-sidenav>
+        </div>
+        <div class="col landing">
+          <router-outlet></router-outlet>
+        </div>
       </div>
     </div>
-    <div fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="20px">
-      <span>Bienvenido Enzo</span>
-      <button class="btn-green" mat-button routerLink="./login">Logout</button>
-    </div>
-  </mat-toolbar>
-  
-
-  <div class="container">
-    <router-outlet></router-outlet>
-  </div>
+  </mat-sidenav-content>
 </mat-sidenav-container>

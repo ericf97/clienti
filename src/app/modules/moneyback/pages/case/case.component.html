@@ -1,20 +1,25 @@
 <div class="container" fxLayoutAlign="center">
-  <mat-card fxFlex="50" fxFlex.xs="90" fxFlex.sm="90">
+  <mat-card fxFlex="70" fxFlex.xs="90" fxFlex.sm="90">
     <mat-card-header>
-      <h2>{{ caso.titulo }}</h2>
+      <h2>Caso número: {{ caso.caseId }}</h2>
     </mat-card-header>
     <mat-card-content fxLayout="column" fxLayoutGap="20px">
-      <div>
-        <p>
-          {{ caso.descripcion }} Lorem ipsum dolor sit, amet consectetur
-          adipisicing elit. Expedita ad tempore tenetur, ab nesciunt eveniet
-          ipsa exercitationem quos rem voluptatem consectetur earum voluptate
-          inventore minima dignissimos quo? Corrupti, quisquam sit.
-        </p>
+      <div fxLayout.xs="column" fxLayoutGap.xs="20px">
+        <div fxFlex="50">
+          <p>Nombre de la empresa: {{ caso.nameEnterprise }}</p>
+          <p>Cantidad de dinero perdida: {{ caso.amountLost }}</p>
+          <p>
+            Estado: <strong>{{ caso.nameState }}</strong>
+          </p>
+        </div>
+        <div fxFlex="50">
+
+          <input type="file" class="form-control" multiple onchange="console.log(event.target.files)" #fileUpload/>
+        </div>
       </div>
       <div fxLayoutAlign="center" fxLayoutGap="20px">
-        <button mat-button class="btn btn-red">Eliminar</button>
-        <button mat-button class="btn btn-green">Aceptar</button>
+        <button type="button" class="btn btn-danger">Eliminar</button>
+        <button type="button" class="btn btn-success">Aceptar</button>
       </div>
     </mat-card-content>
   </mat-card>

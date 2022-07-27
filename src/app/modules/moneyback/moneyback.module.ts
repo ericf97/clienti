@@ -10,6 +10,7 @@ import { CasesComponent } from './pages/cases/cases.component';
 import { RouterModule, Routes } from '@angular/router';
 import { ClientsComponent } from './pages/clients/clients.component';
 import { CaseComponent } from './pages/case/case.component';
+import { PopUpComponent } from './components/pop-up/pop-up.component';
 
 const routes: Routes = [
   {
@@ -19,10 +20,10 @@ const routes: Routes = [
         path: '',
         component: HomeComponent,
       },
-      {
-        path: 'calendar',
-        component: CalendarComponent,
-      },
+      // {
+      //   path: 'calendar',
+      //   component: CalendarComponent,
+      // },
       {
         path: 'cases',
         component: CasesComponent,
@@ -31,14 +32,14 @@ const routes: Routes = [
         path: 'case/:id',
         component: CaseComponent,
       },
-      {
-        path: 'client/:id',
-        component: ClientComponent,
-      },
-      {
-        path: 'clients',
-        component: ClientsComponent,
-      },
+      // {
+      //   path: 'client/:id',
+      //   component: ClientComponent,
+      // },
+      // {
+      //   path: 'clients',
+      //   component: ClientsComponent,
+      // },
     ],
   },
 ];
@@ -51,6 +52,7 @@ const routes: Routes = [
     CasesComponent,
     ClientsComponent,
     CaseComponent,
+    PopUpComponent,
   ],
   imports: [CommonModule, MaterialModule, RouterModule.forChild(routes)],
 })

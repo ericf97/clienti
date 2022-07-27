@@ -1,0 +1,18 @@
+.header {
+  margin: 0%;
+  width: 100vw;
+  height: 80px;
+  background-color: #2f3e46;
+  color: #fbfbfb;
+  .mobile button {
+    display: none;
+  }
+  @media (max-width: 990px) {
+    .desk {
+      display: none;
+    }
+    .mobile button {
+      display: block;
+    }
+  }
+}

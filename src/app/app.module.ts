@@ -8,6 +8,7 @@ import { RouterModule } from '@angular/router';
 //#region COMPONENTES
 import { AppComponent } from './app.component';
 
+import { HttpClientModule } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MaterialModule } from './modules/material/material.module';
 
@@ -21,6 +22,7 @@ import { MaterialModule } from './modules/material/material.module';
     RouterModule,
     BrowserAnimationsModule,
     MaterialModule,
+    HttpClientModule
   ],
   providers: [],
   bootstrap: [AppComponent],

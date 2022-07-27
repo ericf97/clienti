@@ -2,13 +2,21 @@
   flex: 1 1 auto;
 }
 
+.landing {
+  background-color: #f5f7f8;
+}
+
+.color-white {
+  color: #fbfbfb
+}
+
 .mat-card {
   padding: 0 !important;
   .mat-card-header {
     padding: 4px;
     border-top-right-radius: 8px;
     border-top-left-radius: 8px;
-    background-color: #3f51b5;
+    background-color: #2f3e46;
     color: white;
     justify-content: center;
     .mat-card-header-text {
@@ -20,36 +28,28 @@
   }
 }
 
-.mat-list-base{
+.mat-list-base {
   margin-bottom: 6px;
 }
 
-mat-divider{
+mat-divider {
   margin: 60px;
 }
 
-.btn{
-  display: flex;
-  position: relative;
-  background-color: #3f51b5;
-  color: white;
-  &:hover{
-      opacity: 90%;
-  }
-}
-
-.btn-red{
-  background-color: #f44336;
-}
-
-.btn-green{
-  background-color: #28a745;
-}
-
-p{
+p {
   align-self: center;
-font-size: 16px;
+  font-size: 16px;
 }
-h2{
-font-size: 22px;
+h2 {
+  font-size: 22px;
+}
+
+.mat-drawer-inner-container {
+  width: 70vw !important;
+  background-color: #1f292f;
+}
+
+
+.mat-drawer-content {
+  overflow: hidden !important;
 }

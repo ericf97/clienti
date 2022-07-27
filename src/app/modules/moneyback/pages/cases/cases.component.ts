@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Caso } from '../../interfaces/caso.interface';
 import { CasesService } from '../../services/cases.service';
 
 @Component({
@@ -7,12 +8,19 @@ import { CasesService } from '../../services/cases.service';
   styleUrls: ['./cases.component.scss'],
 })
 export class CasesComponent implements OnInit {
+  casos: Caso[] = [];
 
-  casos = this.casesService.getCasos();
+  spinner: boolean = true;
 
-  constructor(private casesService:CasesService ) { }
+  constructor(private casesService: CasesService) {}
 
   ngOnInit(): void {
+    this.casesService.getCasos().subscribe((cases) => {
+      console.log(cases);
+      this.casos = cases;
+      if (this.casos) {
+        this.spinner = false;
+      }
+    });
   }
-
 }

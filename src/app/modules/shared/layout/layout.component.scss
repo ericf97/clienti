@@ -1,43 +1,20 @@
-.header {
-  background-color: #3f51b5;
-  color: white;
-}
-
-.container {
-  padding: 20px;
-}
-
-.sidebar {
-  background-color: #3f51b5;
-  color: white !important;
-  .mat-toolbar {
-    background-color: transparent;
-    color: white;
+.content {
+  background-color: var(--gray);
+  .layout-container {
+    padding-right: 10px;
+    padding-left: 10px;
+    .layout-sidenav {
+      background-color: #1f292f;
+      height: 100vh;
+      padding: 0;
+    }
+  }
+  
+  
+  @media (max-width: 990px) {
+    .layout-sidenav {
+      display: none;
+    }
   }
 }
 
-.mat-list-base .mat-list-item {
-  color: white;
-}
-
-.mobile{
-  display: none;
-  @media (max-width:990px) {
-    display: flex;
-  }
-}
-
-.home{
-  cursor: pointer;
-  .mat-icon{
-    font-size: 30px;
-    vertical-align: top;
-    margin-right: 8px;
-  }
-  span{
-    font-size: 22px;
-  }
-  @media (max-width:990px) {
-    display: none;
-  }
-}

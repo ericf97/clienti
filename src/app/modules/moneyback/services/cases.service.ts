@@ -1,4 +1,6 @@
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { environment } from 'src/environments/environment';
 import { Caso } from '../interfaces/caso.interface';
 
 @Injectable({
@@ -6,37 +8,22 @@ import { Caso } from '../interfaces/caso.interface';
 })
 export class CasesService {
 
-  casos:Caso[]=[
-    {
-      id:1,
-      titulo:'Titulo caso 1',
-      descripcion:'Descripcion de caso 1 '
-    },
-    {
-      id:2,
-      titulo:'Titulo caso 2',
-      descripcion:'Descripcion de caso 2 '
-    },
-    {
-      id:3,
-      titulo:'Titulo caso 3',
-      descripcion:'Descripcion de caso 3 '
-    },
-    {
-      id:4,
-      titulo:'Titulo caso 4',
-      descripcion:'Descripcion de caso 4 '
-    },
-    {
-      id:5,
-      titulo:'Titulo caso 5',
-      descripcion:'Descripcion de caso 5 '
-    },
-  ]
+  public httpOptions = {
+    headers: new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Access-Control-Allow-Origin': '*',
+      // 'Accept': '*/*'  
+    }),
+  };
 
-  constructor() { }
+  apiUrl = environment.apiBase;
 
-  getCasos(){
-    return this.casos;
+  constructor( private http: HttpClient ) { }
+
+  getCasos() {
+    return this.http.get<Caso[]>(`${this.apiUrl}/cases`, this.httpOptions);
+  }
+  postCasos( caso: Caso ) {
+    return this.http.post<Caso>(`${this.apiUrl}/cases`, this.httpOptions)
   }
 }

@@ -1,0 +1,18 @@
+<mat-toolbar class="header" fxLayoutAlign="space-between center">
+  <div class="side-header">
+    <div class="desk px-3">
+      <h1>MoneyBack</h1>
+    </div>
+    <div class="mobile">
+      <button mat-icon-button (click)="toggleHandler()">
+        <mat-icon>menu</mat-icon>
+      </button>
+    </div>
+  </div>
+  <div *ngIf="user">
+    <span class="mx-3">Bienvenido {{ user }}</span>
+    <button class="btn btn-danger btn-lg" type="button" (click)="logout()">
+      Logout
+    </button>
+  </div>
+</mat-toolbar>

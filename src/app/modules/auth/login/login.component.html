@@ -3,17 +3,18 @@
     <p class="form__title">LOG IN</p>
     <p class="form__subtitle">Please log in to continue</p>
     <!-- LOGIN FORM -->
-    <form [formGroup]="loginForm">
+    <form [formGroup]="loginForm" (ngSubmit)="login()" (keyup.enter)="loginForm.valid ? login() : '' ">
       <!-- INPUT EMAIL -->
       <div class="form__input">
-        <label for="email">
-          <i class="fa fa-envelope icon"></i>
+        <label for="nick">
+          <i class="fa fa-user-circle icon"></i>
         </label>
         <input
-          formControlName="user"
+          formControlName="nick"
           class="form__input--field"
           type="text"
-          placeholder="Email"
+          placeholder="Nick"
+          autofocus
         />
       </div>
       <!-- INPUT PASSWORD -->
@@ -40,9 +41,8 @@
     <button
       mat-button
       class="form__button"
-      (click)="login()"
       [disabled]="!loginForm.valid"
-      [routerLink]="['/home']"
+      type="submit"
     >
       Log in
     </button>

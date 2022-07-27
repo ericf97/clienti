@@ -5,6 +5,11 @@ import { LayoutComponent } from './layout/layout.component';
 
 import { MaterialModule } from '../material/material.module';
 import { RouterModule, Routes } from '@angular/router';
+import { AuthGuard } from '../auth/guards/auth.guard';
+import { SidenavComponent } from './components/sidenav/sidenav.component';
+import { MobileSidenavComponent } from './components/mobile-sidenav/mobile-sidenav.component';
+import { NavigationItemsComponent } from './components/navigation-items/navigation-items.component';
+import { HeaderComponent } from './components/header/header.component';
 
 const routes: Routes = [
   {
@@ -17,6 +22,8 @@ const routes: Routes = [
           import('../moneyback/moneyback.module').then(
             (m) => m.MoneybackModule
           ),
+        canLoad: [AuthGuard],
+        canActivate: [AuthGuard],
       },
       {
         path: 'login',
@@ -25,14 +32,20 @@ const routes: Routes = [
       },
       {
         path: '**',
-        redirectTo: 'login',
+        redirectTo: 'home',
       },
     ],
   },
 ];
 
 @NgModule({
-  declarations: [LayoutComponent],
+  declarations: [
+    LayoutComponent,
+    SidenavComponent,
+    MobileSidenavComponent,
+    NavigationItemsComponent,
+    HeaderComponent
+  ],
   imports: [
     CommonModule,
     MaterialModule,

@@ -1,4 +1,7 @@
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Observable, of } from 'rxjs';
+import { environment } from 'src/environments/environment';
 import { Auth } from '../interfaces/auth.interface';
 
 @Injectable({
@@ -6,19 +9,57 @@ import { Auth } from '../interfaces/auth.interface';
 })
 export class AuthService {
 
-  private usuarioActivo: Auth | undefined = {
-    id: 1,
-    nombre: 'Enzo',
-    apellido: 'Avalos',
-    user: 'enzo@mail.com',
+  loginUrl: string = environment.apiBase + '/login';
+
+  USER: Auth = {
+    nick: 'admin',
     password: 'enzoenzo'
   }
 
-  connection: boolean = false;
+  httpOptions = {
+    headers: new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Access-Control-Allow-Origin': '*',
+      // 'Accept': '*/*'  
+    }),
+  };
 
-  get usuario() {
-    return { ...this.usuarioActivo }
+  activeUser: Auth | undefined;
+
+  apiUrl = environment.apiBase;
+
+  constructor( private http: HttpClient ) { 
+    if (localStorage.getItem('token')) {
+      this.activeUser = this.USER;
+    }
   }
 
-  constructor() { }
+  login( user: Auth ) {
+    console.log(user);
+    console.log(this.USER);
+    if (user.nick == this.USER.nick && user.password == this.USER.password) {
+      this.activeUser = user;
+      localStorage.setItem('token', user.nick);
+      window.location.reload();
+      return true;
+    } else {
+      return false
+    }
+  }
+
+  logout() {
+    window.location.reload();
+    localStorage.removeItem('token');
+    this.activeUser = undefined;
+  }
+
+  verifyAuthentication(): Observable<boolean> {
+    if (!localStorage.getItem('token')) {
+      return of(false);
+    } else {
+      this.activeUser = this.USER;
+      return of(true);
+    }
+  }
 }
+

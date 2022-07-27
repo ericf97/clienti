@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 import { Auth } from '../interfaces/auth.interface';
+import { AuthService } from '../services/auth.service';
 
 @Component({
   selector: 'app-login',
@@ -13,23 +15,25 @@ export class LoginComponent implements OnInit {
 
   loginForm: FormGroup = new FormGroup(
     {
-      user: new FormControl('', [ Validators.required, Validators.email ]),
-      password: new FormControl('',[ Validators.required, Validators.minLength(6) ])
+      nick: new FormControl('', [Validators.required]),
+      password: new FormControl('', [Validators.required, Validators.minLength(6)])
     }
   )
 
-  constructor() { }
-
-  ngOnInit(): void {
+  constructor(private router: Router, private authService: AuthService) {
+    if (localStorage.getItem('token')) {
+      this.router.navigate(['./home'])
+    }
   }
 
-  login(){
-    console.log(this.loginForm.get('user')?.value);
-    console.log(this.loginForm.get('password')?.value);
+  ngOnInit(): void { }
+
+
+  login() {
     this.loginUser = {
-      user: this.loginForm.get('user')?.value,
+      nick: this.loginForm.get('nick')?.value,
       password: this.loginForm.get('password')?.value
     }
-    console.log(this.loginUser);
+    this.authService.login(this.loginUser);
   }
 }

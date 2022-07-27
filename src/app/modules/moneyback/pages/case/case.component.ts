@@ -20,8 +20,14 @@ export class CaseComponent implements OnInit {
 
   ngOnInit(): void {
     this.activatedRoute.params.subscribe(({ id }) => {
-      this.caso = this.casesService.getCasos()[id-1];
-      console.log(this.caso);
+      this.casesService.getCasos().subscribe((resp) => {
+        console.log(resp);
+        
+        this.caso = resp.find( caso => caso.caseId == id )!;
+        console.log(this.caso);
+        
+      })
+      // this.caso = this.casesService.getCasos()[id-1];
     });
   }
 
