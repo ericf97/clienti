@@ -11,7 +11,7 @@
   &:hover {
     color: #56a8f3;
   }
-  &:active {
-    background: #56a8f3;
+  &[aria-selected="true"] {
+    color: #56a8f3;
   }
 }

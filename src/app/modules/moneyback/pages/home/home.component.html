@@ -1,7 +1,7 @@
 <div class="container">
   <div class="row">
     <div class="d-flex justify-content-center">
-      <h1>Bienvenido Enzo</h1>
+      <h1>Bienvenido</h1>
     </div>
   </div>
   <mat-divider></mat-divider>
@@ -12,7 +12,7 @@
       </mat-card-header>
       <mat-card-content>
         <mat-list>
-          <mat-list-item>caso </mat-list-item>
+          <mat-list-item *ngFor="let case of cases">caso </mat-list-item>
         </mat-list>
       </mat-card-content>
     </mat-card>

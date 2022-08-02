@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  apiBase: "https://backend-moneyback.azurewebsites.net/api"
+  apiBase: "https://dev-moneyback.azurewebsites.net/api"
 };
 
 /*

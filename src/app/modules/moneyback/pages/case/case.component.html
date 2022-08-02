@@ -1,26 +1,116 @@
 <div class="container" fxLayoutAlign="center">
-  <mat-card fxFlex="70" fxFlex.xs="90" fxFlex.sm="90">
-    <mat-card-header>
-      <h2>Caso número: {{ caso.caseId }}</h2>
+  <mat-card fxFlex="90" *ngIf="!spinner">
+    <mat-card-header class="py-3">
+      <h2>Caso número: {{ case.caseId }}</h2>
     </mat-card-header>
-    <mat-card-content fxLayout="column" fxLayoutGap="20px">
-      <div fxLayout.xs="column" fxLayoutGap.xs="20px">
-        <div fxFlex="50">
-          <p>Nombre de la empresa: {{ caso.nameEnterprise }}</p>
-          <p>Cantidad de dinero perdida: {{ caso.amountLost }}</p>
-          <p>
-            Estado: <strong>{{ caso.nameState }}</strong>
-          </p>
-        </div>
-        <div fxFlex="50">
-
-          <input type="file" class="form-control" multiple onchange="console.log(event.target.files)" #fileUpload/>
+    <mat-card-content>
+      <div class="row my-3">
+        <form [formGroup]="caseForm" autocomplete="off">
+          <div class="row">
+            <div class="col-6 pe-2">
+              <div class="row">
+                <mat-form-field appearance="outline">
+                  <mat-label>Nombre</mat-label>
+                  <input
+                    type="text"
+                    matInput
+                    formControlName="name"
+                    [class.disabled]
+                  />
+                </mat-form-field>
+              </div>
+              <div class="row">
+                <mat-form-field appearance="outline">
+                  <mat-label>Apellido</mat-label>
+                  <input type="text" matInput formControlName="lastName" />
+                </mat-form-field>
+              </div>
+              <div class="row">
+                <mat-form-field appearance="outline">
+                  <mat-label>Teléfono</mat-label>
+                  <input type="number" matInput formControlName="phone" />
+                </mat-form-field>
+              </div>
+              <div class="row">
+                <mat-form-field appearance="outline">
+                  <mat-label>Dirección</mat-label>
+                  <input type="text" matInput formControlName="addressUser" />
+                </mat-form-field>
+              </div>
+            </div>
+            <div class="col-6">
+              <div class="row">
+                <mat-form-field appearance="outline">
+                  <mat-label>Empresa</mat-label>
+                  <input
+                    type="text"
+                    matInput
+                    formControlName="nameEnterprise"
+                  />
+                </mat-form-field>
+              </div>
+              <div class="row">
+                <mat-form-field appearance="outline">
+                  <mat-label>Cantidad de dinero</mat-label>
+                  <input type="number" matInput formControlName="amountLost" />
+                </mat-form-field>
+              </div>
+              <div class="row">
+                <mat-form-field appearance="outline">
+                  <mat-label>Estado del caso</mat-label>
+                  <input type="text" matInput formControlName="nameState" />
+                </mat-form-field>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+      <div class="row">
+        <div class="col">
+          <input
+            #fileUpload
+            [ngStyle]="{ display: 'none' }"
+            type="file"
+            (change)="onFileSelected($event)"
+            class="form-control"
+            accept="application/pdf,application/msword,
+            application/vnd.openxmlformats-officedocument.wordprocessingml.document,image/png,image/jpeg,image/jpg"
+            multiple
+          />
+          <button class="btn btn-outline-primary" (click)="fileUpload.click()">
+            Adjuntar archivos
+          </button>
+          <br />
+          <span class="ms-1">DOCS, PDF(5MB), JPG, PNG</span>
+          <mat-card class="files p-2">
+            <mat-card-content>
+              <p *ngIf="!caseFiles.length">No se encontraron archivos</p>
+              <div *ngFor="let file of caseFiles" class="my-1">
+                <div class="d-flex justify-content-between">
+                  <p>{{ file.fileName }}</p>
+                  <mat-icon (click)="deleteFile(file.fileName)">close</mat-icon>
+                </div>
+                <hr />
+              </div>
+            </mat-card-content>
+          </mat-card>
         </div>
       </div>
-      <div fxLayoutAlign="center" fxLayoutGap="20px">
-        <button type="button" class="btn btn-danger">Eliminar</button>
-        <button type="button" class="btn btn-success">Aceptar</button>
+      <div class="d-flex justify-content-center my-3">
+        <button
+          type="button"
+          class="btn mx-2"
+          [ngClass]="editing ? 'btn-danger' : 'btn-primary'"
+          (click)="editForm()"
+        >
+          {{ editing ? "Cancelar" : "Editar" }}
+        </button>
+        <button type="button" class="btn btn-success mx-2">Aceptar</button>
+        <button type="button" class="btn btn-success mx-2" (click)="postCase()">
+          POST FILES
+        </button>
       </div>
     </mat-card-content>
   </mat-card>
+  <mat-spinner *ngIf="spinner"></mat-spinner>
 </div>

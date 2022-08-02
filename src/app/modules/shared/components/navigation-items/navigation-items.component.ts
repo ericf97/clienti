@@ -4,7 +4,8 @@ import { Router } from '@angular/router';
 interface NavItems {
   title: string,
   link: string,
-  icon: string
+  icon: string,
+  aux: string,
 }
 
 @Component({
@@ -18,12 +19,14 @@ export class NavigationItemsComponent implements OnInit {
     {
       title: 'Inicio',
       link: '/home',
-      icon: 'home'
+      icon: 'home',
+      aux: 'home'
     },
     {
       title: 'Casos',
       link: '/home/cases',
-      icon: 'library_books'
+      icon: 'library_books',
+      aux: 'case'
     },
 
   ]
@@ -31,8 +34,6 @@ export class NavigationItemsComponent implements OnInit {
   constructor( public router: Router ) { }
 
   ngOnInit(): void {
-    console.log(this.router.url);
-    
   }
 
 }

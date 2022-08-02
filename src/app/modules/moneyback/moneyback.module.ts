@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { ReactiveFormsModule } from '@angular/forms';
 
 import { MaterialModule } from '../material/material.module';
 
@@ -54,6 +55,6 @@ const routes: Routes = [
     CaseComponent,
     PopUpComponent,
   ],
-  imports: [CommonModule, MaterialModule, RouterModule.forChild(routes)],
+  imports: [CommonModule, MaterialModule, RouterModule.forChild(routes), ReactiveFormsModule],
 })
 export class MoneybackModule {}

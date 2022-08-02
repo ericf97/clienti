@@ -1,7 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
-import { Caso } from '../interfaces/caso.interface';
+import { Case } from '../interfaces/case.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -20,10 +20,10 @@ export class CasesService {
 
   constructor( private http: HttpClient ) { }
 
-  getCasos() {
-    return this.http.get<Caso[]>(`${this.apiUrl}/cases`, this.httpOptions);
+  getCases() {
+    return this.http.get<Case[]>(`${this.apiUrl}/cases`, this.httpOptions);
   }
-  postCasos( caso: Caso ) {
-    return this.http.post<Caso>(`${this.apiUrl}/cases`, this.httpOptions)
+  postCases( _case: Case ) {
+    return this.http.post<Case>(`${this.apiUrl}/cases`, _case , this.httpOptions)
   }
 }
