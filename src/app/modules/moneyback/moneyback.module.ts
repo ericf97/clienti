@@ -55,6 +55,11 @@ const routes: Routes = [
     CaseComponent,
     PopUpComponent,
   ],
-  imports: [CommonModule, MaterialModule, RouterModule.forChild(routes), ReactiveFormsModule],
+  imports: [
+    CommonModule,
+    MaterialModule,
+    RouterModule.forChild(routes),
+    ReactiveFormsModule,
+  ],
 })
 export class MoneybackModule {}

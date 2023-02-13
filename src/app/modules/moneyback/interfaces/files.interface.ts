@@ -1,5 +1,7 @@
 export interface FilesInterface {
-  caseId: number;
-  fileName: string;
-  fileData: string;
+  fileId?: number[];
+  caseId?: number;
+  fileName?: string;
+  Name: string;
+  fileData?: string;
 }

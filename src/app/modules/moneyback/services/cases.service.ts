@@ -23,7 +23,7 @@ export class CasesService {
   getCases() {
     return this.http.get<Case[]>(`${this.apiUrl}/cases`, this.httpOptions);
   }
-  postCases( _case: Case ) {
+  postCase( _case: Case ) {
     return this.http.post<Case>(`${this.apiUrl}/cases`, _case , this.httpOptions)
   }
 }

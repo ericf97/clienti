@@ -1,4 +1,14 @@
 <div class="container">
+  <div class="row d-flex justify-content-end">
+    <button
+      type="button"
+      [routerLink]="['/home/case/new']"
+      class="btn btn-primary btn-lg"
+      *ngIf="!spinner"
+    >
+      Nuevo caso
+    </button>
+  </div>
   <div class="row d-flex justify-content-center">
     <mat-card class="mt-3" *ngIf="!spinner">
       <mat-card-header>
@@ -6,7 +16,7 @@
       </mat-card-header>
       <mat-card-content>
         <mat-list *ngFor="let caso of casos">
-          <div class=" d-flex justify-content-between px-3">
+          <div class="d-flex justify-content-between px-3">
             <p>Caso número {{ caso.caseId }}:</p>
             <button
               type="button"

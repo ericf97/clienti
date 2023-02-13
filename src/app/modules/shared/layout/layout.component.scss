@@ -6,7 +6,8 @@
     padding-left: 10px;
     .layout-sidenav {
       background-color: #1f292f;
-      height: 100vh;
+      height: auto;
+      min-height: 100vh;
       padding: 0;
     }
   }

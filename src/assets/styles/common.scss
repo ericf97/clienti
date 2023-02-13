@@ -17,8 +17,8 @@
   padding: 0 !important;
   .mat-card-header {
     padding: 4px;
-    border-top-right-radius: 8px;
-    border-top-left-radius: 8px;
+    border-top-right-radius: 6px;
+    border-top-left-radius: 6px;
     background-color: #2f3e46;
     color: white;
     justify-content: center;
@@ -62,6 +62,9 @@ h2 {
     .mat-form-field-infix {
       padding: 8px 0 10px 0;
     }
+    .mat-select {
+      padding: 2px 0 4px 0;
+    }
     .mat-form-field-flex {
       .mat-form-field-outline {
         color: var(--bs-dark);
@@ -101,6 +104,16 @@ h2 {
         }
       }
     }
+    &.mat-form-field-invalid {
+      .mat-form-field-flex {
+      .mat-form-field-outline {
+        &.mat-form-field-outline-thick {
+          * {
+            color: var(--bs-red) !important;
+          }
+        }
+      }}
+    }
   }
   .mat-input-element {
     background-color: transparent;
@@ -125,4 +138,8 @@ h2 {
       }
     }
   }
+}
+
+.btn {
+  width: auto;
 }

@@ -1,7 +1,14 @@
-<div class="container" fxLayoutAlign="center">
-  <mat-card fxFlex="90" *ngIf="!spinner">
+<div class="container" fxLayoutAlign="center" class="pb-4">
+  <mat-card
+    fxFlex="90"
+    *ngIf="!spinner"
+    [ngStyle]="{
+      'box-shadow': editing ? '0 0 0 .25rem rgba(49,132,253,.5)' : ''
+    }"
+  >
     <mat-card-header class="py-3">
-      <h2>Caso número: {{ case.caseId }}</h2>
+      <h2 *ngIf="case.caseId">Caso número: {{ case.caseId }}</h2>
+      <h2 *ngIf="!case.caseId">Nuevo caso</h2>
     </mat-card-header>
     <mat-card-content>
       <div class="row my-3">
@@ -15,7 +22,7 @@
                     type="text"
                     matInput
                     formControlName="name"
-                    [class.disabled]
+                    [errorStateMatcher]="matcher"
                   />
                 </mat-form-field>
               </div>
@@ -23,6 +30,17 @@
                 <mat-form-field appearance="outline">
                   <mat-label>Apellido</mat-label>
                   <input type="text" matInput formControlName="lastName" />
+                </mat-form-field>
+              </div>
+              <div class="row">
+                <mat-form-field appearance="outline">
+                  <mat-label>Email</mat-label>
+                  <input
+                    type="text"
+                    matInput
+                    formControlName="email"
+                    [errorStateMatcher]="matcher"
+                  />
                 </mat-form-field>
               </div>
               <div class="row">
@@ -46,19 +64,50 @@
                     type="text"
                     matInput
                     formControlName="nameEnterprise"
+                    [errorStateMatcher]="matcher"
                   />
                 </mat-form-field>
               </div>
               <div class="row">
                 <mat-form-field appearance="outline">
-                  <mat-label>Cantidad de dinero</mat-label>
-                  <input type="number" matInput formControlName="amountLost" />
+                  <mat-label>Cantidad de dinero perdido</mat-label>
+                  <input
+                    type="number"
+                    matInput
+                    formControlName="amountLost"
+                    [errorStateMatcher]="matcher"
+                  />
+                </mat-form-field>
+              </div>
+              <div class="row">
+                <mat-form-field appearance="outline">
+                  <mat-label>Tipo de depósito</mat-label>
+                  <mat-select
+                    disableOptionCentering=""
+                    formControlName="deposit"
+                    [errorStateMatcher]="matcher"
+                  >
+                    <mat-option value="paypal"> PayPal </mat-option>
+                    <mat-option value="cash"> Cash </mat-option>
+                    <mat-option value="deposit"> Depósito </mat-option>
+                    <mat-option value="banco"> Banco </mat-option>
+                    <mat-option value="crypto"> Crypto </mat-option>
+                  </mat-select>
                 </mat-form-field>
               </div>
               <div class="row">
                 <mat-form-field appearance="outline">
                   <mat-label>Estado del caso</mat-label>
-                  <input type="text" matInput formControlName="nameState" />
+                  <mat-select
+                    disableOptionCentering=""
+                    formControlName="nameState"
+                    [errorStateMatcher]="matcher"
+                  >
+                    <mat-option value="initial"> Initial </mat-option>
+                    <mat-option value="pending"> Pending </mat-option>
+                    <mat-option value="resolved"> Resolved </mat-option>
+                    <mat-option value="closed"> Closed </mat-option>
+                  </mat-select>
                 </mat-form-field>
               </div>
             </div>
@@ -77,7 +126,11 @@
             application/vnd.openxmlformats-officedocument.wordprocessingml.document,image/png,image/jpeg,image/jpg"
             multiple
           />
-          <button class="btn btn-outline-primary" (click)="fileUpload.click()">
+          <button
+            class="btn btn-outline-primary"
+            [disabled]="!editing"
+            (click)="fileUpload.click()"
+          >
             Adjuntar archivos
           </button>
           <br />
@@ -87,8 +140,15 @@
               <p *ngIf="!caseFiles.length">No se encontraron archivos</p>
               <div *ngFor="let file of caseFiles" class="my-1">
                 <div class="d-flex justify-content-between">
+                  <p>{{ file.Name }}</p>
+                  <mat-icon (click)="deleteFile(file.Name)">close</mat-icon>
+                </div>
+                <hr />
+              </div>
+              <div *ngFor="let file of newFiles" class="my-1">
+                <div class="d-flex justify-content-between">
                   <p>{{ file.fileName }}</p>
-                  <mat-icon (click)="deleteFile(file.fileName)">close</mat-icon>
+                  <mat-icon (click)="deleteFile(file.Name)">close</mat-icon>
                 </div>
                 <hr />
               </div>
@@ -99,15 +159,27 @@
       <div class="d-flex justify-content-center my-3">
         <button
           type="button"
+          class="btn mx-2 btn-danger"
+          (click)="goBack()"
+          *ngIf="!case.caseId"
+        >
+          Cancelar
+        </button>
+        <button
+          type="button"
           class="btn mx-2"
           [ngClass]="editing ? 'btn-danger' : 'btn-primary'"
-          (click)="editForm()"
+          (click)="editing ? resetForm() : enableForm()"
+          *ngIf="case.caseId"
         >
           {{ editing ? "Cancelar" : "Editar" }}
         </button>
-        <button type="button" class="btn btn-success mx-2">Aceptar</button>
-        <button type="button" class="btn btn-success mx-2" (click)="postCase()">
-          POST FILES
+        <button
+          type="button"
+          class="btn btn-success mx-2"
+          (click)="editing ? postCase() : goBack()"
+        >
+          Aceptar
         </button>
       </div>
     </mat-card-content>
