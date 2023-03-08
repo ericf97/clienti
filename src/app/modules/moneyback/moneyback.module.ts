@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, DatePipe } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
 
 import { MaterialModule } from '../material/material.module';
@@ -12,6 +12,9 @@ import { RouterModule, Routes } from '@angular/router';
 import { ClientsComponent } from './pages/clients/clients.component';
 import { CaseComponent } from './pages/case/case.component';
 import { PopUpComponent } from './components/pop-up/pop-up.component';
+import { AuthUserPopupComponent } from './components/auth-user-popup/auth-user-popup.component';
+import { AuthGuard } from '../auth/guards/auth.guard';
+import { HomeClientComponent } from './pages/home-client/home-client.component';
 
 const routes: Routes = [
   {
@@ -21,14 +24,18 @@ const routes: Routes = [
         path: '',
         component: HomeComponent,
       },
+      {
+        path:':id',
+        component: HomeClientComponent
+      },
       // {
       //   path: 'calendar',
       //   component: CalendarComponent,
       // },
-      {
-        path: 'cases',
-        component: CasesComponent,
-      },
+      // {
+      //   path: 'cases',
+      //   component: CasesComponent,
+      // },
       {
         path: 'case/:id',
         component: CaseComponent,
@@ -42,6 +49,12 @@ const routes: Routes = [
       //   component: ClientsComponent,
       // },
     ],
+    canLoad: [AuthGuard],
+    canActivate: [AuthGuard],
+  },
+  {
+    path: '**',
+    redirectTo: '',
   },
 ];
 
@@ -54,6 +67,8 @@ const routes: Routes = [
     ClientsComponent,
     CaseComponent,
     PopUpComponent,
+    AuthUserPopupComponent,
+    HomeClientComponent,
   ],
   imports: [
     CommonModule,
@@ -61,5 +76,6 @@ const routes: Routes = [
     RouterModule.forChild(routes),
     ReactiveFormsModule,
   ],
+  providers:[DatePipe]
 })
 export class MoneybackModule {}

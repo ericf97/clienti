@@ -1,14 +1,17 @@
 export interface Case {
   addressUser?: string;
   amountLost: number;
+  authId?: number;
   caseId?: number;
+  dateDeposit: string | Date;
   email: string;
-  lastName?: string;
+  lastName: string;
+  depositType: string;
+  moneyType: string;
   name: string;
   nameEnterprise: string;
-  nameState: 'initial' | 'pending' | 'resolved' | 'closed';
-  stateId: number;
+  nameState: string;
   phone?: number;
-  userId?: number | number[];
-  deposit?: 'paypal' | 'cash' | 'deposit' | 'bank' | 'crypto';
+  stateId?: number;
+  userId?: number;
 }

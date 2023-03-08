@@ -15,16 +15,22 @@
         <h2>Lista de casos disponibles</h2>
       </mat-card-header>
       <mat-card-content>
-        <mat-list *ngFor="let caso of casos">
+        <mat-list *ngFor="let case of casesService.cases">
           <div class="d-flex justify-content-between px-3">
-            <p>Caso número {{ caso.caseId }}:</p>
-            <button
-              type="button"
-              [routerLink]="['/home/case', caso.caseId]"
-              class="btn btn-primary"
-            >
-              Ver más
-            </button>
+            <p>{{ case.name | titlecase }} {{ case.lastName | titlecase }}:</p>
+            <div class="d-flex align-items-center">
+              <p class="me-2">{{ case.authId ? "Usuario con alta" : "Usuario sin alta " }}</p>
+              <a class="mx-2" (click)="openDialog(case.userId)" *ngIf="!case.authId"
+                ><strong>HABILITAR</strong></a
+              >
+              <button
+                type="button"
+                [routerLink]="['/home/case', case.caseId]"
+                class="btn btn-primary ms-1 mb-1"
+              >
+                Ver más
+              </button>
+            </div>
           </div>
         </mat-list>
       </mat-card-content>

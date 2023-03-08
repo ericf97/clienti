@@ -44,7 +44,7 @@ const routes: Routes = [
     SidenavComponent,
     MobileSidenavComponent,
     NavigationItemsComponent,
-    HeaderComponent
+    HeaderComponent,
   ],
   imports: [
     CommonModule,

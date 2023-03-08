@@ -1,9 +1,13 @@
 <div class="container">
   <div class="form">
     <p class="form__title">LOG IN</p>
-    <p class="form__subtitle">Please log in to continue</p>
+    <p class="form__subtitle">Ingrese para poder avanzar</p>
     <!-- LOGIN FORM -->
-    <form [formGroup]="loginForm" (ngSubmit)="login()" (keyup.enter)="loginForm.valid ? login() : '' ">
+    <form
+      [formGroup]="loginForm"
+      (ngSubmit)="login()"
+      (keyup.enter)="loginForm.valid ? login() : ''"
+    >
       <!-- INPUT EMAIL -->
       <div class="form__input">
         <label for="nick">
@@ -13,7 +17,7 @@
           formControlName="nick"
           class="form__input--field"
           type="text"
-          placeholder="Nick"
+          placeholder="usuario"
           autofocus
         />
       </div>
@@ -26,7 +30,7 @@
           formControlName="password"
           class="form__input--field"
           type="password"
-          placeholder="Password"
+          placeholder="contraseña"
         />
         <!-- <span class="form__input--forgot-password">
           <a href="">Forgot?</a>
@@ -35,22 +39,16 @@
           <mat-icon>eye</mat-icon>
         </span> -->
       </div>
+
+      <!-- BUTTON LOGIN -->
+      <button
+        mat-button
+        class="form__button w-100"
+        [disabled]="!loginForm.valid"
+        type="submit"
+      >
+        Ingresar
+      </button>
     </form>
-
-    <!-- BUTTON LOGIN -->
-    <button
-      mat-button
-      class="form__button"
-      [disabled]="!loginForm.valid"
-      type="submit"
-    >
-      Log in
-    </button>
-
-    <label class="form__checkbox"
-      >Remember me
-      <input type="checkbox" />
-      <span class="checkmark"></span>
-    </label>
   </div>
 </div>

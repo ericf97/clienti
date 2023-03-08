@@ -7,12 +7,20 @@
     }"
   >
     <mat-card-header class="py-3">
-      <h2 *ngIf="case.caseId">Caso número: {{ case.caseId }}</h2>
-      <h2 *ngIf="!case.caseId">Nuevo caso</h2>
+      <h2>
+        {{
+          newCase
+            ? "Nuevo caso"
+            : "Caso de " +
+              (case.name | titlecase) +
+              " " +
+              (case.lastName ? (case.lastName | titlecase) : "")
+        }}
+      </h2>
     </mat-card-header>
     <mat-card-content>
       <div class="row my-3">
-        <form [formGroup]="caseForm" autocomplete="off">
+        <form [formGroup]="caseForm" autocomplete="off" (submit)="postCase()">
           <div class="row">
             <div class="col-6 pe-2">
               <div class="row">
@@ -29,7 +37,12 @@
               <div class="row">
                 <mat-form-field appearance="outline">
                   <mat-label>Apellido</mat-label>
-                  <input type="text" matInput formControlName="lastName" />
+                  <input
+                    type="text"
+                    matInput
+                    formControlName="lastName"
+                    [errorStateMatcher]="matcher"
+                  />
                 </mat-form-field>
               </div>
               <div class="row">
@@ -59,7 +72,7 @@
             <div class="col-6">
               <div class="row">
                 <mat-form-field appearance="outline">
-                  <mat-label>Empresa</mat-label>
+                  <mat-label>Empresa o persona</mat-label>
                   <input
                     type="text"
                     matInput
@@ -81,16 +94,46 @@
               </div>
               <div class="row">
                 <mat-form-field appearance="outline">
+                  <mat-label>Tipo de moneda</mat-label>
+                  <mat-select
+                    disableOptionCentering=""
+                    formControlName="moneyType"
+                    [errorStateMatcher]="matcher"
+                  >
+                    <mat-option value="crypto"> Crypto </mat-option>
+                    <mat-option value="dollar"> Dólar </mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+              <div class="row">
+                <mat-form-field appearance="outline">
+                  <mat-label>Fecha de depósito</mat-label>
+                  <input
+                    matInput
+                    [disabled]="true"
+                    formControlName="dateDeposit"
+                    [matDatepicker]="picker"
+                    placeholder="MM/DD/YYYY"
+                    [errorStateMatcher]="matcher"
+                  />
+                  <mat-datepicker-toggle
+                    matIconSuffix
+                    [for]="picker"
+                  ></mat-datepicker-toggle>
+                  <mat-datepicker #picker [disabled]="false"></mat-datepicker>
+                </mat-form-field>
+              </div>
+              <div class="row">
+                <mat-form-field appearance="outline">
                   <mat-label>Tipo de depósito</mat-label>
                   <mat-select
                     disableOptionCentering=""
-                    formControlName="deposit"
+                    formControlName="depositType"
                     [errorStateMatcher]="matcher"
                   >
                     <mat-option value="paypal"> PayPal </mat-option>
                     <mat-option value="cash"> Cash </mat-option>
-                    <mat-option value="deposit"> Depósito </mat-option>
-                    <mat-option value="banco"> Banco </mat-option>
+                    <mat-option value="deposit bank"> Depósito </mat-option>
                     <mat-option value="crypto"> Crypto </mat-option>
                   </mat-select>
                 </mat-form-field>
@@ -103,86 +146,42 @@
                     formControlName="nameState"
                     [errorStateMatcher]="matcher"
                   >
-                    <mat-option value="initial"> Initial </mat-option>
-                    <mat-option value="pending"> Pending </mat-option>
-                    <mat-option value="resolved"> Resolved </mat-option>
-                    <mat-option value="closed"> Closed </mat-option>
+                    <mat-option
+                      *ngFor="let state of casesService.caseStates"
+                      [value]="state.nameState"
+                    >
+                      {{ state.nameState | titlecase }}
+                    </mat-option>
                   </mat-select>
                 </mat-form-field>
               </div>
             </div>
           </div>
+          <div class="d-flex justify-content-center my-3">
+            <button
+              type="button"
+              class="btn mx-2 btn-danger"
+              (click)="goBack()"
+              *ngIf="newCase"
+            >
+              Cancelar
+            </button>
+            <button
+              type="button"
+              class="btn mx-2"
+              [ngClass]="editing ? 'btn-danger' : 'btn-primary'"
+              (click)="editing ? resetForm() : enableForm()"
+              *ngIf="!newCase"
+            >
+              {{ editing ? "Cancelar" : "Editar" }}
+            </button>
+            <button type="submit" class="btn btn-success mx-2">Aceptar</button>
+          </div>
         </form>
-      </div>
-      <div class="row">
-        <div class="col">
-          <input
-            #fileUpload
-            [ngStyle]="{ display: 'none' }"
-            type="file"
-            (change)="onFileSelected($event)"
-            class="form-control"
-            accept="application/pdf,application/msword,
-            application/vnd.openxmlformats-officedocument.wordprocessingml.document,image/png,image/jpeg,image/jpg"
-            multiple
-          />
-          <button
-            class="btn btn-outline-primary"
-            [disabled]="!editing"
-            (click)="fileUpload.click()"
-          >
-            Adjuntar archivos
-          </button>
-          <br />
-          <span class="ms-1">DOCS, PDF(5MB), JPG, PNG</span>
-          <mat-card class="files p-2">
-            <mat-card-content>
-              <p *ngIf="!caseFiles.length">No se encontraron archivos</p>
-              <div *ngFor="let file of caseFiles" class="my-1">
-                <div class="d-flex justify-content-between">
-                  <p>{{ file.Name }}</p>
-                  <mat-icon (click)="deleteFile(file.Name)">close</mat-icon>
-                </div>
-                <hr />
-              </div>
-              <div *ngFor="let file of newFiles" class="my-1">
-                <div class="d-flex justify-content-between">
-                  <p>{{ file.fileName }}</p>
-                  <mat-icon (click)="deleteFile(file.Name)">close</mat-icon>
-                </div>
-                <hr />
-              </div>
-            </mat-card-content>
-          </mat-card>
-        </div>
-      </div>
-      <div class="d-flex justify-content-center my-3">
-        <button
-          type="button"
-          class="btn mx-2 btn-danger"
-          (click)="goBack()"
-          *ngIf="!case.caseId"
-        >
-          Cancelar
-        </button>
-        <button
-          type="button"
-          class="btn mx-2"
-          [ngClass]="editing ? 'btn-danger' : 'btn-primary'"
-          (click)="editing ? resetForm() : enableForm()"
-          *ngIf="case.caseId"
-        >
-          {{ editing ? "Cancelar" : "Editar" }}
-        </button>
-        <button
-          type="button"
-          class="btn btn-success mx-2"
-          (click)="editing ? postCase() : goBack()"
-        >
-          Aceptar
-        </button>
       </div>
     </mat-card-content>
   </mat-card>
-  <mat-spinner *ngIf="spinner"></mat-spinner>
+  <div class="d-flex justify-content-center w-100">
+    <mat-spinner *ngIf="spinner"></mat-spinner>
+  </div>
 </div>

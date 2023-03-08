@@ -21,6 +21,7 @@
     "@angular/platform-browser": "~12.2.0",
     "@angular/platform-browser-dynamic": "~12.2.0",
     "@angular/router": "~12.2.0",
+    "ngx-cookie-service": "^14.0.1",
     "font-awesome": "^4.7.0",
     "rxjs": "~7.5.0",
     "subsink": "^1.0.2",

@@ -4,20 +4,19 @@ import { AuthService } from 'src/app/modules/auth/services/auth.service';
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
-  styleUrls: ['./header.component.scss']
+  styleUrls: ['./header.component.scss'],
 })
 export class HeaderComponent implements OnInit {
-
   @Output() toggleSidenav = new EventEmitter();
 
-  user: string | undefined = this.authService.activeUser?.nick;
+  user: string | null = this.authService.activeUser;
 
-  constructor( public authService: AuthService ) { }
+  constructor(public authService: AuthService) {}
 
   ngOnInit(): void {
-    this.user = this.authService.activeUser?.nick;
+    this.user = this.authService.activeUser;
   }
-  
+
   logout() {
     this.authService.logout();
   }

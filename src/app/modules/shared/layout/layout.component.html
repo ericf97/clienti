@@ -1,17 +1,18 @@
 <mat-sidenav-container fullscreen class="content">
-  <mat-sidenav #sidenav class="sidebar">
+  <!-- <mat-sidenav #sidenav class="sidebar">
     <app-mobile-sidenav (closeSidenav)="sidenav.close()"></app-mobile-sidenav>
-  </mat-sidenav>
+  </mat-sidenav> -->
   <mat-sidenav-content>
     <div class="row header">
-      <app-header (toggleSidenav)="sidenav.toggle()"></app-header>
+      <!-- <app-header (toggleSidenav)="sidenav.toggle()"></app-header> -->
+      <app-header></app-header>
     </div>
     <div class="layout-container">
-      <div class="row">
-        <div class="col-2 layout-sidenav" *ngIf="show">
+      <div class="row justify-content-center">
+        <!-- <div class="col-2 layout-sidenav" *ngIf="show">
           <app-sidenav></app-sidenav>
-        </div>
-        <div class="col landing">
+        </div> -->
+        <div class="col-10 landing">
           <router-outlet></router-outlet>
         </div>
       </div>

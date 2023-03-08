@@ -21,7 +21,7 @@ export class LoginComponent implements OnInit {
   )
 
   constructor(private router: Router, private authService: AuthService) {
-    if (localStorage.getItem('token')) {
+    if (localStorage.getItem('user')) {
       this.router.navigate(['./home'])
     }
   }

@@ -1,18 +1,69 @@
-<div class="container">
+<div class="container" *ngIf="authService.activeUser == 'admin'">
   <div class="row">
     <div class="d-flex justify-content-center">
-      <h1>Bienvenido</h1>
+      <h1>MoneyBack admin panel</h1>
     </div>
   </div>
   <mat-divider></mat-divider>
-  <div class="row mt-3">
+  <div class="row d-flex justify-content-center">
+    <mat-spinner class="my-5" *ngIf="spinner"></mat-spinner>
+  </div>
+  <div class="row d-flex justify-content-end my-3">
+    <button
+      type="button"
+      [routerLink]="['/home/case/new']"
+      class="btn btn-primary btn-lg"
+      *ngIf="!spinner"
+    >
+      Agregar nuevo caso
+    </button>
+  </div>
+  <div class="row my-2" *ngIf="!spinner">
     <mat-card class="mb-card">
       <mat-card-header>
-        <h2 routerLink="/home/cases">Casos</h2>
+        <h2>Lista de casos</h2>
       </mat-card-header>
       <mat-card-content>
         <mat-list>
-          <mat-list-item *ngFor="let case of cases">caso </mat-list-item>
+          <mat-list-item
+            *ngFor="let case of casesService.cases; let i = index"
+            class="row my-2"
+          >
+            <div class="col-3">
+              <h5>{{ case.name + " " + (case.lastName || "") | titlecase }}</h5>
+            </div>
+            <div class="col-3 d-flex align-items-baseline justify-content-end">
+              <h6>Monto:</h6>
+              <h5 class="ms-2">
+                {{ case.amountLost }} {{ case.moneyType | uppercase }}
+              </h5>
+            </div>
+            <div class="col-3 d-flex align-items-baseline justify-content-end">
+              <h6>Estado:</h6>
+              <h5 class="ms-2">{{ case.nameState | titlecase }}</h5>
+            </div>
+            <div class="col-3 d-flex align-items-baseline justify-content-end">
+              <p class="text-end me-2">
+                {{ case.authId ? "Usuario habilitado" : "" }}
+                <a
+                  class="mx-2 dark"
+                  (click)="openDialog(case.userId)"
+                  *ngIf="!case.authId"
+                  ><strong>HABILITAR</strong></a
+                >
+              </p>
+              <button
+                type="button"
+                [routerLink]="['/home/case', case.caseId]"
+                class="btn btn-primary ms-1 mb-1"
+              >
+                Ver más
+              </button>
+            </div>
+            <mat-divider
+              *ngIf="i != casesService.cases.length - 1"
+            ></mat-divider>
+          </mat-list-item>
         </mat-list>
       </mat-card-content>
     </mat-card>

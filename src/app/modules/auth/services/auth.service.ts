@@ -3,63 +3,85 @@ import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { Auth } from '../interfaces/auth.interface';
+import { CookieService } from 'ngx-cookie-service';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class AuthService {
-
   loginUrl: string = environment.apiBase + '/login';
 
   USER: Auth = {
     nick: 'admin',
-    password: 'enzoenzo'
-  }
+    password: 'enzoenzo',
+  };
+
+  USER_CLIENT: Auth = {
+    nick: 'ericfz',
+    password: 'adminadmin',
+  };
 
   httpOptions = {
     headers: new HttpHeaders({
       'Content-Type': 'application/json',
       'Access-Control-Allow-Origin': '*',
-      // 'Accept': '*/*'  
+      // 'Accept': '*/*'
     }),
   };
 
-  activeUser: Auth | undefined;
+  activeUser: string | null;
 
   apiUrl = environment.apiBase;
 
-  constructor( private http: HttpClient ) { 
-    if (localStorage.getItem('token')) {
-      this.activeUser = this.USER;
-    }
+  constructor(private http: HttpClient, private cookieService: CookieService) {
+      this.activeUser = localStorage.getItem('user');
   }
 
-  login( user: Auth ) {
-    console.log(user);
-    console.log(this.USER);
-    if (user.nick == this.USER.nick && user.password == this.USER.password) {
-      this.activeUser = user;
-      localStorage.setItem('token', user.nick);
+  login(user: Auth) {
+    let parsedUser = JSON.stringify(user);
+
+    if (
+      parsedUser == JSON.stringify(this.USER) ||
+      parsedUser == JSON.stringify(this.USER_CLIENT)
+    ) {
+      this.activeUser = user.nick;
+      localStorage.setItem('user', user.nick);
       window.location.reload();
       return true;
     } else {
-      return false
+      return false;
     }
+    // return this.http.post(`${this.apiUrl}/login`, user).subscribe({
+    //   next: () => {
+    //     this.cookieService.set('user', user.nick, 1, '/');
+    //     window.location.reload();
+    //   },
+    //   error: (error) => {
+    //     console.log(error);
+    //   },
+    // });
   }
 
   logout() {
     window.location.reload();
-    localStorage.removeItem('token');
-    this.activeUser = undefined;
+    localStorage.removeItem('user');
+    this.activeUser = null;
+  }
+
+  createUser(username: string, pass: string, id: number) {
+    return this.http.post(`${this.apiUrl}/login/signup`, {
+      nick: username,
+      pass: pass,
+      userId: id,
+    });
   }
 
   verifyAuthentication(): Observable<boolean> {
-    if (!localStorage.getItem('token')) {
+    if (!localStorage.getItem('user')) {
       return of(false);
     } else {
-      this.activeUser = this.USER;
+      this.activeUser = localStorage.getItem('user');
       return of(true);
     }
   }
 }
-

@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { Case } from '../../interfaces/case.interface';
 import { CasesService } from '../../services/cases.service';
+import { AuthUserPopupComponent } from '../../components/auth-user-popup/auth-user-popup.component';
 
 @Component({
   selector: 'app-cases',
@@ -12,15 +14,27 @@ export class CasesComponent implements OnInit {
 
   spinner: boolean = true;
 
-  constructor(private casesService: CasesService) {}
+  constructor(public casesService: CasesService, private popUp: MatDialog) {}
 
   ngOnInit(): void {
-    this.casesService.getCases().subscribe((cases) => {
-      console.log(cases);
-      this.casos = cases;
-      if (this.casos) {
-        this.spinner = false;
+    if (this.casesService.cases.length) {
+      this.spinner = false;
+    } else {
+      this.casesService.getCases().subscribe({
+        next: () => {
+          this.spinner = false;
+        },
+      });
+    }
+  }
+
+  openDialog( userId: any ) {
+    this.popUp.open(AuthUserPopupComponent,{
+      minHeight:'30vh',
+      minWidth:'40vw',
+      data: {
+        id: userId
       }
-    });
+    })
   }
 }
