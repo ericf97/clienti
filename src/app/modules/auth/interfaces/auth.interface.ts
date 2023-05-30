@@ -1,4 +1,4 @@
 export interface Auth{
     nick: string,
-    password: string
+    pass: string
 }

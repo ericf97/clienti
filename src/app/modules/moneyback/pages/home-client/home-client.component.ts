@@ -19,7 +19,7 @@ export class HomeClientComponent implements OnInit {
   matcher = new MyErrorStateMatcher();
 
   caseForm: FormGroup = this.fb.group({
-    addressUser: [''],
+    country: [''],
     amountLost: ['', [Validators.required]],
     email: ['', [Validators.required, Validators.email]],
     lastName: ['', [Validators.required]],
@@ -53,7 +53,7 @@ export class HomeClientComponent implements OnInit {
 
   resetForm() {
     this.caseForm.reset({
-      addressUser: this.case.addressUser,
+      country: this.case.country,
       amountLost: this.case.amountLost,
       email: this.case.email,
       lastName: this.case.lastName,

@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule, DatePipe } from '@angular/common';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { MaterialModule } from '../material/material.module';
 
@@ -75,6 +75,7 @@ const routes: Routes = [
     MaterialModule,
     RouterModule.forChild(routes),
     ReactiveFormsModule,
+    FormsModule
   ],
   providers:[DatePipe]
 })

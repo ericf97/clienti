@@ -1,5 +1,5 @@
 export interface Case {
-  addressUser?: string;
+  country?: string;
   amountLost: number;
   authId?: number;
   caseId?: number;
@@ -11,7 +11,7 @@ export interface Case {
   name: string;
   nameEnterprise: string;
   nameState: string;
-  phone?: number;
+  phone?: number | string;
   stateId?: number;
   userId?: number;
 }

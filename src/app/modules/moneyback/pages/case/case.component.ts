@@ -14,6 +14,7 @@ import { FilesInterface } from '../../interfaces/files.interface';
 import { FilesService } from '../../services/files.service';
 import { ErrorStateMatcher } from '@angular/material/core';
 import { DatePipe } from '@angular/common';
+import { COUNTRIES, Country } from 'src/app/modules/shared/constants/countries';
 
 export class MyErrorStateMatcher implements ErrorStateMatcher {
   isErrorState(
@@ -36,6 +37,12 @@ export class CaseComponent implements OnInit {
   case!: Case;
   newCase: boolean = true;
 
+  emails: string[] = [];
+  foundEmails: string[] = [];
+
+  countries: Country[] = COUNTRIES;
+  selectedCountry!: Country;
+
   caseFiles: FilesInterface[] = [];
 
   newFiles: FilesInterface[] = [];
@@ -43,7 +50,7 @@ export class CaseComponent implements OnInit {
   matcher = new MyErrorStateMatcher();
 
   caseForm: FormGroup = this.fb.group({
-    addressUser: [''],
+    country: [''],
     amountLost: ['', [Validators.required]],
     email: ['', [Validators.required, Validators.email]],
     lastName: ['', [Validators.required]],
@@ -54,6 +61,7 @@ export class CaseComponent implements OnInit {
     depositType: ['', [Validators.required]],
     moneyType: ['', [Validators.required]],
     phone: [''],
+    newUser: [true],
   });
 
   constructor(
@@ -68,9 +76,9 @@ export class CaseComponent implements OnInit {
   ngOnInit(): void {
     this.casesService.getCaseStates();
     this.activatedRoute.params.subscribe(({ id }) => {
-      if (id != 'new') {
-        this.newCase = false;
-        this.casesService.getCases().subscribe((resp) => {
+      this.casesService.getCases().subscribe((resp) => {
+        if (id != 'new') {
+          this.newCase = false;
           this.case = resp.find((caso) => caso.caseId == id)!;
           // this.fileService.getFiles(this.case.caseId!).subscribe((resp) => {
           //   console.log('resp', resp);
@@ -79,11 +87,13 @@ export class CaseComponent implements OnInit {
           this.resetForm();
           this.disableForm();
           this.spinner = false;
-        });
-      } else {
-        this.spinner = false;
-        this.editing = true;
-      }
+        } else {
+          this.emails = [...new Set<string>(resp.map((a) => a.email))];
+          this.foundEmails = this.emails;
+          this.spinner = false;
+          this.editing = true;
+        }
+      });
     });
   }
 
@@ -98,8 +108,8 @@ export class CaseComponent implements OnInit {
   }
 
   resetForm() {
+    this.selectCountry(this.case.country!)!;
     this.caseForm.reset({
-      addressUser: this.case.addressUser,
       amountLost: this.case.amountLost,
       email: this.case.email,
       lastName: this.case.lastName,
@@ -110,6 +120,7 @@ export class CaseComponent implements OnInit {
       depositType: this.case.depositType,
       moneyType: this.case.moneyType,
       phone: this.case.phone,
+      newUser: false,
     });
     this.disableForm();
   }
@@ -145,9 +156,9 @@ export class CaseComponent implements OnInit {
   }
 
   postCase() {
-    console.log('post');
     this.caseForm.markAllAsTouched();
     if (this.caseForm.valid) {
+      console.log('post');
       this.caseForm.controls['dateDeposit'].setValue(
         this.datePipe.transform(
           this.caseForm.controls['dateDeposit'].value,
@@ -155,6 +166,7 @@ export class CaseComponent implements OnInit {
         )
       );
       this.case = { ...this.case, ...this.caseForm.value };
+      this.case.phone = this.case.phone?.toString();
       console.log(this.case);
       this.postFiles();
       if (this.newCase) {
@@ -163,12 +175,18 @@ export class CaseComponent implements OnInit {
             console.log(resp);
             this.router.navigate(['/home']);
           },
+          error: (err) => {
+            console.log(err);
+          },
         });
       } else {
         this.casesService.editCase(this.case).subscribe({
           next: (resp) => {
             console.log(resp);
             this.router.navigate(['/home']);
+          },
+          error: (err) => {
+            console.log(err);
           },
         });
       }
@@ -178,6 +196,20 @@ export class CaseComponent implements OnInit {
   deleteFile(name: string) {
     const aux = this.caseFiles.filter((item) => item.Name !== name);
     this.caseFiles = aux;
+  }
+
+  onKey({ value }: any) {
+    this.foundEmails = this.search(value);
+  }
+
+  search(value: string) {
+    return this.emails.filter((a) =>
+      a.toLowerCase().startsWith(value.toLowerCase())
+    );
+  }
+
+  selectCountry(country: string) {
+    this.selectedCountry = COUNTRIES.find((a) => a.spa == country)!;
   }
 
   //PARA NO CARGAR ARCHIVOS DUPLICADOS

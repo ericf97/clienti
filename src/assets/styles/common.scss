@@ -175,3 +175,66 @@ h2 {
 .btn {
   width: auto;
 }
+
+//PROGRESS BAR
+.mat-progress-bar {
+  height: 10px !important;
+  border: 1px solid #acaaaa;
+  border-radius: 5px;
+  &.orange {
+    .mat-progress-bar-buffer {
+      background: #ffa70044;
+    }
+    .mat-progress-bar-fill::after {
+      background: #ffa700;
+    }
+  }
+  &.yellow {
+    .mat-progress-bar-buffer {
+      background: #ffd60044;
+    }
+    .mat-progress-bar-fill::after {
+      background: #ffd600;
+    }
+  }
+  &.green {
+    .mat-progress-bar-buffer {
+      background: #a3ff0044;
+    }
+    .mat-progress-bar-fill::after {
+      background: #a3ff00;
+    }
+  }
+  &.success {
+    .mat-progress-bar-buffer {
+      background: #2cba0044;
+    }
+    .mat-progress-bar-fill::after {
+      background: #2cba00;
+    }
+  }
+}
+.mat-progress-bar-background {
+  fill: transparent;
+}
+
+//TOOLTIPS
+
+.mat-tooltip {
+  background: #252525;
+  font-size: 12px;
+}
+
+//INPUT ARROWS HIDE
+
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type="number"] {
+  -moz-appearance: textfield;
+}

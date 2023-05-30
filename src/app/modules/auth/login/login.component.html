@@ -1,12 +1,11 @@
 <div class="container">
   <div class="form">
     <p class="form__title">LOG IN</p>
-    <p class="form__subtitle">Ingrese para poder avanzar</p>
+    <p class="form__subtitle">Ingrese para poder continuar</p>
     <!-- LOGIN FORM -->
     <form
       [formGroup]="loginForm"
-      (ngSubmit)="login()"
-      (keyup.enter)="loginForm.valid ? login() : ''"
+      (submit)="login()"
     >
       <!-- INPUT EMAIL -->
       <div class="form__input">

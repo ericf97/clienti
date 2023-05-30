@@ -50,7 +50,7 @@ export class CasesService {
   }
 
   getCaseStates() {
-    return this.http
+    this.http
       .get<any>(`${this.apiUrl}/cases/states`, this.httpOptions)
       .subscribe((resp) => {
         this.caseStates = resp;

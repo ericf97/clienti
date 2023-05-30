@@ -13,12 +13,12 @@ export class AuthService {
 
   USER: Auth = {
     nick: 'admin',
-    password: 'enzoenzo',
+    pass: 'enzoenzo',
   };
 
   USER_CLIENT: Auth = {
     nick: 'ericfz',
-    password: 'adminadmin',
+    pass: 'adminadmin',
   };
 
   httpOptions = {
@@ -34,37 +34,37 @@ export class AuthService {
   apiUrl = environment.apiBase;
 
   constructor(private http: HttpClient, private cookieService: CookieService) {
-      this.activeUser = localStorage.getItem('user');
+    this.activeUser = this.cookieService.get('user') || '';
   }
 
   login(user: Auth) {
-    let parsedUser = JSON.stringify(user);
+    // let parsedUser = JSON.stringify(user);
 
-    if (
-      parsedUser == JSON.stringify(this.USER) ||
-      parsedUser == JSON.stringify(this.USER_CLIENT)
-    ) {
-      this.activeUser = user.nick;
-      localStorage.setItem('user', user.nick);
-      window.location.reload();
-      return true;
-    } else {
-      return false;
-    }
-    // return this.http.post(`${this.apiUrl}/login`, user).subscribe({
-    //   next: () => {
-    //     this.cookieService.set('user', user.nick, 1, '/');
-    //     window.location.reload();
-    //   },
-    //   error: (error) => {
-    //     console.log(error);
-    //   },
-    // });
+    // if (
+    //   parsedUser == JSON.stringify(this.USER) ||
+    //   parsedUser == JSON.stringify(this.USER_CLIENT)
+    // ) {
+    //   this.activeUser = user.nick;
+    //   localStorage.setItem('user', user.nick);
+    //   window.location.reload();
+    //   return true;
+    // } else {
+    //   return false;
+    // }
+    this.http.post(`${this.apiUrl}/login`, user).subscribe({
+      next: () => {
+        this.cookieService.set('user', user.nick, 1, '/');
+        window.location.reload();
+      },
+      error: (error) => {
+        console.log(error);
+      },
+    });
   }
 
   logout() {
     window.location.reload();
-    localStorage.removeItem('user');
+    this.cookieService.delete('user', '/');
     this.activeUser = null;
   }
 
@@ -77,10 +77,10 @@ export class AuthService {
   }
 
   verifyAuthentication(): Observable<boolean> {
-    if (!localStorage.getItem('user')) {
+    if (!this.cookieService.get('user')) {
       return of(false);
     } else {
-      this.activeUser = localStorage.getItem('user');
+      this.activeUser = this.cookieService.get('user');
       return of(true);
     }
   }

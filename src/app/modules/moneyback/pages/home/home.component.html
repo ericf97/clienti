@@ -33,14 +33,22 @@
               <h5>{{ case.name + " " + (case.lastName || "") | titlecase }}</h5>
             </div>
             <div class="col-3 d-flex align-items-baseline justify-content-end">
-              <h6>Monto:</h6>
-              <h5 class="ms-2">
-                {{ case.amountLost }} {{ case.moneyType | uppercase }}
+              <h5 class="me-1">
+                {{ case.amountLost }}
               </h5>
+              <h6>{{ case.moneyType | uppercase }}</h6>
             </div>
-            <div class="col-3 d-flex align-items-baseline justify-content-end">
+            <div class="col-3 d-flex align-items-center justify-content-end">
               <h6>Estado:</h6>
-              <h5 class="ms-2">{{ case.nameState | titlecase }}</h5>
+              <mat-progress-bar
+                mode="determinate"
+                [value]="setProgress(case.stateId!).progress"
+                [ngClass]="setProgress(case.stateId!).class!"
+                class="ms-2 w-50"
+                [matTooltip]="case.nameState"
+                matTooltipPosition="above"
+                matTooltipHideDelay="200"
+              ></mat-progress-bar>
             </div>
             <div class="col-3 d-flex align-items-baseline justify-content-end">
               <p class="text-end me-2">
@@ -49,7 +57,7 @@
                   class="mx-2 dark"
                   (click)="openDialog(case.userId)"
                   *ngIf="!case.authId"
-                  ><strong>HABILITAR</strong></a
+                  ><strong>Habilitar</strong></a
                 >
               </p>
               <button

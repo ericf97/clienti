@@ -3,37 +3,43 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Auth } from '../interfaces/auth.interface';
 import { AuthService } from '../services/auth.service';
+import { CookieService } from 'ngx-cookie-service';
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
-  styleUrls: ['./login.component.scss']
+  styleUrls: ['./login.component.scss'],
 })
 export class LoginComponent implements OnInit {
-
   loginUser!: Auth;
 
-  loginForm: FormGroup = new FormGroup(
-    {
-      nick: new FormControl('', [Validators.required]),
-      password: new FormControl('', [Validators.required, Validators.minLength(6)])
-    }
-  )
+  loginForm: FormGroup = new FormGroup({
+    nick: new FormControl('', [Validators.required]),
+    password: new FormControl('', [
+      Validators.required,
+      Validators.minLength(6),
+    ]),
+  });
 
-  constructor(private router: Router, private authService: AuthService) {
-    if (localStorage.getItem('user')) {
-      this.router.navigate(['./home'])
+  constructor(
+    private router: Router,
+    private authService: AuthService,
+    private cookieService: CookieService
+  ) {
+    if (this.cookieService.get('user')) {
+      this.router.navigate(['./home']);
     }
   }
 
-  ngOnInit(): void { }
-
+  ngOnInit(): void {}
 
   login() {
-    this.loginUser = {
-      nick: this.loginForm.get('nick')?.value,
-      password: this.loginForm.get('password')?.value
+    if (this.loginForm.valid) {
+      this.loginUser = {
+        nick: this.loginForm.get('nick')?.value,
+        pass: this.loginForm.get('password')?.value,
+      };
+      this.authService.login(this.loginUser);
     }
-    this.authService.login(this.loginUser);
   }
 }
