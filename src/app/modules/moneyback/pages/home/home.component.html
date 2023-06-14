@@ -1,4 +1,4 @@
-<div class="container" *ngIf="authService.activeUser == 'admin'">
+<div class="container">
   <div class="row">
     <div class="d-flex justify-content-center">
       <h1>MoneyBack admin panel</h1>
@@ -19,12 +19,12 @@
     </button>
   </div>
   <div class="row my-2" *ngIf="!spinner">
-    <mat-card class="mb-card">
+    <mat-card class="mb-card mb-5">
       <mat-card-header>
         <h2>Lista de casos</h2>
       </mat-card-header>
       <mat-card-content>
-        <mat-list>
+        <!-- <mat-list>
           <mat-list-item
             *ngFor="let case of casesService.cases; let i = index"
             class="row my-2"
@@ -40,15 +40,10 @@
             </div>
             <div class="col-3 d-flex align-items-center justify-content-end">
               <h6>Estado:</h6>
-              <mat-progress-bar
-                mode="determinate"
-                [value]="setProgress(case.stateId!).progress"
-                [ngClass]="setProgress(case.stateId!).class!"
-                class="ms-2 w-50"
-                [matTooltip]="case.nameState"
-                matTooltipPosition="above"
-                matTooltipHideDelay="200"
-              ></mat-progress-bar>
+              <app-progress-status
+                *ngIf="casesService.caseStates"
+                [stateId]="case.stateId!"
+              ></app-progress-status>
             </div>
             <div class="col-3 d-flex align-items-baseline justify-content-end">
               <p class="text-end me-2">
@@ -72,7 +67,78 @@
               *ngIf="i != casesService.cases.length - 1"
             ></mat-divider>
           </mat-list-item>
-        </mat-list>
+        </mat-list> -->
+        <table mat-table #table [dataSource]="casesService.cases" class="w-100">
+          <ng-container matColumnDef="name">
+            <th mat-header-cell *matHeaderCellDef>Nombre</th>
+            <td mat-cell *matCellDef="let case">
+              {{ case.name + " " + (case.lastName || "") | titlecase }}
+            </td>
+          </ng-container>
+          <ng-container matColumnDef="amount">
+            <th mat-header-cell *matHeaderCellDef>Cantidad</th>
+            <td mat-cell *matCellDef="let case">
+              {{ case.amountLost }}
+            </td>
+          </ng-container>
+          <ng-container matColumnDef="moneyType">
+            <th mat-header-cell *matHeaderCellDef>Tipo de depósito</th>
+            <td mat-cell *matCellDef="let case">
+              {{ case.moneyType | uppercase }}
+            </td>
+          </ng-container>
+          <ng-container matColumnDef="status">
+            <th mat-header-cell *matHeaderCellDef>Estado</th>
+            <td mat-cell *matCellDef="let case">
+              <app-progress-status
+                *ngIf="casesService.caseStates"
+                [stateId]="case.stateId!"
+              ></app-progress-status>
+            </td>
+          </ng-container>
+          <ng-container matColumnDef="auth">
+            <th mat-header-cell *matHeaderCellDef>Habilitado</th>
+            <td mat-cell *matCellDef="let case">
+              {{ case.authId ? "Usuario habilitado" : "" }}
+              <a
+                class="mx-2 dark"
+                (click)="openDialog(case.userId)"
+                *ngIf="!case.authId"
+                ><strong>Habilitar</strong></a
+              >
+            </td>
+          </ng-container>
+          <ng-container matColumnDef="more">
+            <th mat-header-cell *matHeaderCellDef></th>
+            <td mat-cell *matCellDef="let case" class="">
+              <button
+                type="button"
+                [routerLink]="['/home/case', case.caseId]"
+                class="btn btn-primary ms-1 mb-1"
+              >
+                Ver más
+              </button>
+            </td>
+          </ng-container>
+          <tr
+            mat-header-row
+            *matHeaderRowDef="[
+              'name',
+              'amount',
+              'moneyType',
+              'status',
+              'auth',
+              'more'
+            ]"
+          ></tr>
+          <tr
+            mat-row
+            *matRowDef="
+              let case;
+              columns: ['name', 'amount', 'moneyType', 'status', 'auth', 'more']
+            "
+          ></tr>
+        </table>
       </mat-card-content>
     </mat-card>
   </div>

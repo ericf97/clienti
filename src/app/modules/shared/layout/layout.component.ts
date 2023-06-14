@@ -1,19 +1,21 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../../auth/services/auth.service';
+import { CookieService } from 'ngx-cookie-service';
 
 @Component({
   selector: 'app-layout',
   templateUrl: './layout.component.html',
-  styleUrls: ['./layout.component.scss']
+  styleUrls: ['./layout.component.scss'],
 })
 export class LayoutComponent implements OnInit {
+  show: any;
 
-  show:any;
-
-  constructor( public auth: AuthService ) { }
+  constructor(public auth: AuthService, private cookieService: CookieService) {}
 
   ngOnInit(): void {
-    this.show = this.auth.activeUser
+    if (this.cookieService.check('userId')) {
+      this.auth.getUserInfo();
+    }
+    this.show = this.auth.activeUser;
   }
-  
 }

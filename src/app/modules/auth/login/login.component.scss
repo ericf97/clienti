@@ -22,6 +22,10 @@
     }
   }
   
+  ::ng-deep .mat-button-wrapper {
+    display: flex !important;
+  }
+
   .form__title {
     font-weight: 700;
     text-transform: uppercase;

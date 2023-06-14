@@ -1,83 +1,68 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from 'src/app/modules/auth/services/auth.service';
 import { CasesService } from '../../services/cases.service';
+import { CookieService } from 'ngx-cookie-service';
+import { MatDialog } from '@angular/material/dialog';
+import { CaseCommentsPopupComponent } from '../../components/case-comments-popup/case-comments-popup.component';
 import { Case } from '../../interfaces/case.interface';
-import { MyErrorStateMatcher } from '../case/case.component';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-home-client',
   templateUrl: './home-client.component.html',
   styleUrls: ['./home-client.component.scss'],
+  encapsulation: ViewEncapsulation.None,
 })
 export class HomeClientComponent implements OnInit {
   spinner: boolean = true;
-  case!: Case;
-  editing: boolean = false;
 
-  matcher = new MyErrorStateMatcher();
-
-  caseForm: FormGroup = this.fb.group({
-    country: [''],
-    amountLost: ['', [Validators.required]],
-    email: ['', [Validators.required, Validators.email]],
-    lastName: ['', [Validators.required]],
-    dateDeposit: ['', [Validators.required]],
-    name: ['', [Validators.required]],
-    nameEnterprise: ['', [Validators.required]],
-    nameState: ['', [Validators.required]],
-    depositType: ['', [Validators.required]],
-    moneyType: ['', [Validators.required]],
-    phone: [''],
-    description: ['']
-  });
+  user: string = '';
 
   constructor(
     private router: Router,
     public authService: AuthService,
     public casesService: CasesService,
-    private fb: FormBuilder
+    private cookieService: CookieService,
+    private dialog: MatDialog
   ) {}
 
   ngOnInit(): void {
-    if (this.authService.activeUser == 'admin') {
+    if (this.authService.decrypt(this.cookieService.get('roleId')) == '1') {
       this.router.navigate(['home']);
+    } else {
+      this.casesService.getCaseStates().subscribe(() => {
+        this.casesService
+          .getUserCases(
+            this.authService.decrypt(this.cookieService.get('userId'))
+          )
+          .subscribe((resp) => {
+            this.casesService.cases = resp;
+            console.log(this.casesService.cases);
+            this.user = this.authService.decrypt(
+              this.cookieService.get('user')
+            );
+            this.spinner = false;
+          });
+      });
     }
-    this.casesService.getCases().subscribe((resp) => {
-      this.case = resp.find((caso) => caso.caseId == 3)!;
-      this.spinner = false;
-      this.resetForm();
-    });
   }
 
-  resetForm() {
-    this.caseForm.reset({
-      country: this.case.country,
-      amountLost: this.case.amountLost,
-      email: this.case.email,
-      lastName: this.case.lastName,
-      dateDeposit: this.case.dateDeposit,
-      name: this.case.name,
-      nameEnterprise: this.case.nameEnterprise,
-      nameState: this.case.nameState,
-      depositType: this.case.depositType,
-      moneyType: this.case.moneyType,
-      phone: this.case.phone,
+  openCommentsDialog(caseId: number) {
+    this.dialog.open(CaseCommentsPopupComponent, {
+      height: '40vh',
+      width: '60vw',
+      data: {
+        text: this.casesService.cases.find((a) => a.caseId == caseId)
+          ?.caseDetails,
+        callback: (text: string) => {
+          let userCase: Case = {
+            ...this.casesService.cases.find((a) => a.caseId == caseId)!,
+            caseDetails: text,
+          };
+          this.casesService.editCase(userCase).subscribe(console.log);
+          this.dialog.closeAll();
+        },
+      },
     });
-    this.disableForm();
-  }
-  
-  enableForm() {
-    this.editing = true;
-    this.caseForm.enable();
-    this.caseForm.controls['name'].disable();
-    this.caseForm.controls['lastName'].disable();
-    this.caseForm.controls['email'].disable();
-  }
-
-  disableForm() {
-    this.editing = false;
-    this.caseForm.disable();
   }
 }

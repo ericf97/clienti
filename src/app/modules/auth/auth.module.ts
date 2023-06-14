@@ -20,7 +20,7 @@ const routes: Routes = [
     RouterModule.forChild(routes),
     ReactiveFormsModule,
     FormsModule,
-    MaterialModule
+    MaterialModule,
   ],
 })
 export class AuthModule {}

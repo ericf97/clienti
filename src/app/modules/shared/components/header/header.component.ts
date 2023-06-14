@@ -1,4 +1,5 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { CookieService } from 'ngx-cookie-service';
 import { AuthService } from 'src/app/modules/auth/services/auth.service';
 
 @Component({
@@ -9,12 +10,15 @@ import { AuthService } from 'src/app/modules/auth/services/auth.service';
 export class HeaderComponent implements OnInit {
   @Output() toggleSidenav = new EventEmitter();
 
-  user: string | null = this.authService.activeUser;
+  user: string = '';
 
-  constructor(public authService: AuthService) {}
+  constructor(
+    public authService: AuthService,
+    private cookieService: CookieService
+  ) {}
 
   ngOnInit(): void {
-    this.user = this.authService.activeUser;
+    this.user = this.authService.decrypt(this.cookieService.get('user'));
   }
 
   logout() {

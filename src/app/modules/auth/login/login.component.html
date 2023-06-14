@@ -43,9 +43,10 @@
       <button
         mat-button
         class="form__button w-100"
-        [disabled]="!loginForm.valid"
+        [disabled]="!loginForm.valid || spinner"
         type="submit"
       >
+      <mat-spinner diameter="35" *ngIf="spinner" class="me-3"></mat-spinner>
         Ingresar
       </button>
     </form>

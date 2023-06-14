@@ -26,6 +26,8 @@ export class AuthUserPopupComponent implements OnInit {
     }
   );
 
+  spinner: boolean = false;
+
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,
     private fb: FormBuilder,
@@ -38,9 +40,20 @@ export class AuthUserPopupComponent implements OnInit {
   createUser() {
     let user = this.userForm.value;
     if (this.userForm.valid) {
+      this.spinner = true;
       this.authService
         .createUser(user.username, user.password, this.data.id)
-        .subscribe(console.log);
+        .subscribe({
+          next: () => {
+            this.spinner = false;
+            setTimeout(() => {
+              this.closeDialog();
+            }, 1000);
+          },
+          error: (err) => {
+            this.spinner = false;
+          },
+        });
     }
   }
 
@@ -63,3 +76,4 @@ export class AuthUserPopupComponent implements OnInit {
     };
   }
 }
+8;

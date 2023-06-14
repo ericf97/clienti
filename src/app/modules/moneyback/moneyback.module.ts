@@ -15,48 +15,11 @@ import { PopUpComponent } from './components/pop-up/pop-up.component';
 import { AuthUserPopupComponent } from './components/auth-user-popup/auth-user-popup.component';
 import { AuthGuard } from '../auth/guards/auth.guard';
 import { HomeClientComponent } from './pages/home-client/home-client.component';
+import { SharedModule } from '../shared/shared.module';
+import { MoneybackRoutingModule } from './moneyback-routing.module';
+import { CaseCommentsPopupComponent } from './components/case-comments-popup/case-comments-popup.component';
 
-const routes: Routes = [
-  {
-    path: '',
-    children: [
-      {
-        path: '',
-        component: HomeComponent,
-      },
-      {
-        path:':id',
-        component: HomeClientComponent
-      },
-      // {
-      //   path: 'calendar',
-      //   component: CalendarComponent,
-      // },
-      // {
-      //   path: 'cases',
-      //   component: CasesComponent,
-      // },
-      {
-        path: 'case/:id',
-        component: CaseComponent,
-      },
-      // {
-      //   path: 'client/:id',
-      //   component: ClientComponent,
-      // },
-      // {
-      //   path: 'clients',
-      //   component: ClientsComponent,
-      // },
-    ],
-    canLoad: [AuthGuard],
-    canActivate: [AuthGuard],
-  },
-  {
-    path: '**',
-    redirectTo: '',
-  },
-];
+
 
 @NgModule({
   declarations: [
@@ -69,13 +32,15 @@ const routes: Routes = [
     PopUpComponent,
     AuthUserPopupComponent,
     HomeClientComponent,
+    CaseCommentsPopupComponent
   ],
   imports: [
     CommonModule,
     MaterialModule,
-    RouterModule.forChild(routes),
+    MoneybackRoutingModule,
     ReactiveFormsModule,
-    FormsModule
+    FormsModule,
+    SharedModule,
   ],
   providers:[DatePipe]
 })

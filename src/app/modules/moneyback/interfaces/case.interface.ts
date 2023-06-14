@@ -3,6 +3,7 @@ export interface Case {
   amountLost: number;
   authId?: number;
   caseId?: number;
+  caseDetails?: string; 
   dateDeposit: string | Date;
   email: string;
   lastName: string;
@@ -14,4 +15,5 @@ export interface Case {
   phone?: number | string;
   stateId?: number;
   userId?: number;
+
 }

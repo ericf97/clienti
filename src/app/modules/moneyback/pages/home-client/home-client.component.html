@@ -1,159 +1,81 @@
 <div class="container">
   <div class="row">
     <div class="d-flex justify-content-center">
-      <h1>Información de Eric Fernández</h1>
+      <h1>Bienvenido {{ user }}</h1>
     </div>
   </div>
   <mat-divider></mat-divider>
   <div class="row d-flex justify-content-center">
     <mat-spinner class="my-5" *ngIf="spinner"></mat-spinner>
   </div>
-  <div
-    class="row my-2"
-    *ngIf="!spinner"
-    [formGroup]="caseForm"
-    autocomplete="off"
-  >
-    <form>
-      <!-- <form [formGroup]="caseForm" autocomplete="off" (submit)="postCase()"> -->
-      <div class="row">
-        <div class="col-6 pe-2">
-          <!-- <div class="row">
-            <mat-form-field appearance="outline">
-              <mat-label>Nombre</mat-label>
-              <input
-                type="text"
-                matInput
-                formControlName="name"
-                [errorStateMatcher]="matcher"
-              />
-            </mat-form-field>
-          </div>
-          <div class="row">
-            <mat-form-field appearance="outline">
-              <mat-label>Apellido</mat-label>
-              <input
-                type="text"
-                matInput
-                formControlName="lastName"
-                [errorStateMatcher]="matcher"
-              />
-            </mat-form-field>
-          </div> -->
+  <div class="row my-2" *ngIf="!spinner">
+    <mat-card class="mb-card">
+      <mat-card-header>
+        <h2>Lista de casos del cliente</h2>
+      </mat-card-header>
 
-          <div class="row">
-            <mat-form-field appearance="outline">
-              <mat-label>Email</mat-label>
-              <input
-                type="text"
-                matInput
-                formControlName="email"
-                [errorStateMatcher]="matcher"
-              />
-            </mat-form-field>
-          </div>
-          <div class="row">
-            <mat-form-field appearance="outline">
-              <mat-label>Teléfono</mat-label>
-              <input type="number" matInput formControlName="phone" />
-            </mat-form-field>
-          </div>
-          <div class="row">
-            <mat-form-field appearance="outline">
-              <mat-label>Dirección</mat-label>
-              <input type="text" matInput formControlName="addressUser" />
-            </mat-form-field>
-          </div>
-          <div class="row">
-            <mat-form-field appearance="outline">
-              <mat-label>Fecha de depósito</mat-label>
-              <input
-                matInput
-                [disabled]="true"
-                formControlName="dateDeposit"
-                [matDatepicker]="picker"
-                placeholder="MM/DD/YYYY"
-                [errorStateMatcher]="matcher"
-              />
-              <mat-datepicker-toggle
-                matIconSuffix
-                [for]="picker"
-              ></mat-datepicker-toggle>
-              <mat-datepicker #picker [disabled]="false"></mat-datepicker>
-            </mat-form-field>
-          </div>
-        </div>
-        <div class="col-6">
-          <div class="row">
-            <mat-form-field appearance="outline">
-              <mat-label>Empresa o persona</mat-label>
-              <input
-                type="text"
-                matInput
-                formControlName="nameEnterprise"
-                [errorStateMatcher]="matcher"
-              />
-            </mat-form-field>
-          </div>
-          <div class="row">
-            <mat-form-field appearance="outline">
-              <mat-label>Cantidad de dinero perdido</mat-label>
-              <input
-                type="number"
-                matInput
-                formControlName="amountLost"
-                [errorStateMatcher]="matcher"
-              />
-            </mat-form-field>
-          </div>
-          <div class="row">
-            <mat-form-field appearance="outline">
-              <mat-label>Tipo de moneda</mat-label>
-              <mat-select
-                disableOptionCentering=""
-                formControlName="moneyType"
-                [errorStateMatcher]="matcher"
-              >
-                <mat-option value="crypto"> Crypto </mat-option>
-                <mat-option value="dollar"> Dólar </mat-option>
-              </mat-select>
-            </mat-form-field>
-          </div>
-
-          <div class="row">
-            <mat-form-field appearance="outline">
-              <mat-label>Tipo de depósito</mat-label>
-              <mat-select
-                disableOptionCentering=""
-                formControlName="depositType"
-                [errorStateMatcher]="matcher"
-              >
-                <mat-option value="paypal"> PayPal </mat-option>
-                <mat-option value="cash"> Cash </mat-option>
-                <mat-option value="deposit bank"> Depósito </mat-option>
-                <mat-option value="crypto"> Crypto </mat-option>
-              </mat-select>
-            </mat-form-field>
-          </div>
-        </div>
-        <div class="col-12">
-          <mat-form-field appearance="outline" class="w-100">
-            <mat-label>Descripción del caso</mat-label>
-            <textarea matInput formControlName="description"></textarea>
-          </mat-form-field>
-        </div>
-      </div>
-      <div class="d-flex justify-content-center my-3">
-        <button
-          type="button"
-          class="btn mx-2"
-          [ngClass]="editing ? 'btn-danger' : 'btn-primary'"
-          (click)="editing ? resetForm() : enableForm()"
-        >
-          {{ editing ? "Cancelar" : "Editar" }}
-        </button>
-        <button type="submit" class="btn btn-success mx-2">Aceptar</button>
-      </div>
-    </form>
+      <mat-card-content>
+        <table mat-table #table [dataSource]="casesService.cases" class="w-100">
+          <ng-container matColumnDef="name">
+            <th mat-header-cell *matHeaderCellDef>Nombre</th>
+            <td mat-cell *matCellDef="let case">
+              {{ case.nameEnterprise | titlecase }}
+            </td>
+          </ng-container>
+          <ng-container matColumnDef="amount">
+            <th mat-header-cell *matHeaderCellDef>Cantidad</th>
+            <td mat-cell *matCellDef="let case">
+              {{ case.amountLost }}
+            </td>
+          </ng-container>
+          <ng-container matColumnDef="moneyType">
+            <th mat-header-cell *matHeaderCellDef>Tipo de depósito</th>
+            <td mat-cell *matCellDef="let case">
+              {{ case.moneyType | uppercase }}
+            </td>
+          </ng-container>
+          <ng-container matColumnDef="status">
+            <th mat-header-cell *matHeaderCellDef>Estado</th>
+            <td mat-cell *matCellDef="let case">
+              <app-progress-status
+                *ngIf="casesService.caseStates"
+                [stateId]="case.stateId!"
+              ></app-progress-status>
+            </td>
+          </ng-container>
+          <ng-container matColumnDef="comments">
+            <th mat-header-cell *matHeaderCellDef></th>
+            <td mat-cell *matCellDef="let case">
+              <div class="d-flex">
+                <button
+                  type="button"
+                  (click)="openCommentsDialog(case.caseId)"
+                  class="btn btn-primary ms-1 mb-1"
+                >
+                  Agregar comentarios
+                </button>
+              </div>
+            </td>
+          </ng-container>
+          <tr
+            mat-header-row
+            *matHeaderRowDef="[
+              'name',
+              'amount',
+              'moneyType',
+              'status',
+              'comments'
+            ]"
+          ></tr>
+          <tr
+            mat-row
+            *matRowDef="
+              let case;
+              columns: ['name', 'amount', 'moneyType', 'status', 'comments']
+            "
+          ></tr>
+        </table>
+      </mat-card-content>
+    </mat-card>
   </div>
 </div>

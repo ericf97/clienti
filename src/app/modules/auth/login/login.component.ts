@@ -13,6 +13,8 @@ import { CookieService } from 'ngx-cookie-service';
 export class LoginComponent implements OnInit {
   loginUser!: Auth;
 
+  spinner: boolean = false;
+
   loginForm: FormGroup = new FormGroup({
     nick: new FormControl('', [Validators.required]),
     password: new FormControl('', [
@@ -35,11 +37,24 @@ export class LoginComponent implements OnInit {
 
   login() {
     if (this.loginForm.valid) {
+      this.spinner = true;
       this.loginUser = {
         nick: this.loginForm.get('nick')?.value,
         pass: this.loginForm.get('password')?.value,
       };
-      this.authService.login(this.loginUser);
+      this.authService.login(this.loginUser).subscribe({
+        next: (resp: any) => {
+          this.cookieService.set('user', this.authService.encrypt(this.loginUser.nick), 1, '/');
+          this.cookieService.set('userId', this.authService.encrypt(resp.user.userId), 1, '/');
+          this.cookieService.set('roleId', this.authService.encrypt(resp.user.roleId), 1, '/');
+          this.spinner = false
+          window.location.reload();
+        },
+        error: (error) => {
+          this.spinner = false
+          console.log(error);
+        },
+      });
     }
   }
 }

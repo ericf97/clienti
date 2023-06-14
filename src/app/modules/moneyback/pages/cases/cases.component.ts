@@ -21,7 +21,7 @@ export class CasesComponent implements OnInit {
       this.spinner = false;
     } else {
       this.casesService.getCases().subscribe({
-        next: () => {
+        next: (resp) => {
           this.spinner = false;
         },
       });

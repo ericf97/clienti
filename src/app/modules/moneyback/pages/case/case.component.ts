@@ -60,6 +60,7 @@ export class CaseComponent implements OnInit {
     nameState: ['', [Validators.required]],
     depositType: ['', [Validators.required]],
     moneyType: ['', [Validators.required]],
+    caseDetails: [''],
     phone: [''],
     newUser: [true],
   });
@@ -74,7 +75,7 @@ export class CaseComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.casesService.getCaseStates();
+    this.casesService.getCaseStates().subscribe();
     this.activatedRoute.params.subscribe(({ id }) => {
       this.casesService.getCases().subscribe((resp) => {
         if (id != 'new') {
@@ -84,6 +85,8 @@ export class CaseComponent implements OnInit {
           //   console.log('resp', resp);
           //   this.caseFiles = resp;
           // });
+          console.log(this.case);
+
           this.resetForm();
           this.disableForm();
           this.spinner = false;
@@ -120,6 +123,7 @@ export class CaseComponent implements OnInit {
       depositType: this.case.depositType,
       moneyType: this.case.moneyType,
       phone: this.case.phone,
+      caseDetails: this.case.caseDetails,
       newUser: false,
     });
     this.disableForm();

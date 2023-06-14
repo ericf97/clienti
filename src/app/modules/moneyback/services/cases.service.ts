@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { map, tap } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { Case } from '../interfaces/case.interface';
+import { CookieService } from 'ngx-cookie-service';
 
 @Injectable({
   providedIn: 'root',
@@ -19,9 +20,10 @@ export class CasesService {
   apiUrl = environment.apiBase;
 
   cases: Case[] = [];
+
   caseStates: any = [];
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private cookieService: CookieService) {}
 
   getCases() {
     return this.http.get<Case[]>(`${this.apiUrl}/cases`, this.httpOptions).pipe(
@@ -50,10 +52,19 @@ export class CasesService {
   }
 
   getCaseStates() {
-    this.http
+    return this.http
       .get<any>(`${this.apiUrl}/cases/states`, this.httpOptions)
-      .subscribe((resp) => {
-        this.caseStates = resp;
-      });
+      .pipe(
+        map((resp) => {
+          this.caseStates = resp;
+          return resp;
+        })
+      );
+  }
+
+  getUserCases(userId: string) {
+    return this.http.get<Case[]>(
+      `${this.apiUrl}/cases/user/${userId}`
+    );
   }
 }

@@ -23,10 +23,11 @@
     </button>
     <button
       type="button"
-      class="btn btn-primary"
+      class="btn btn-primary d-flex align-items-center"
       [disabled]="userForm.invalid"
       (click)="createUser()"
     >
+      <mat-spinner diameter="30" *ngIf="spinner" class="me-1"></mat-spinner>
       Confirmar
     </button>
   </div>

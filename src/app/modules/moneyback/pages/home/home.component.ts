@@ -34,17 +34,19 @@ export class HomeComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.casesService.getCaseStates();
-    if (this.authService.activeUser != 'admin') {
+    if (this.authService.decrypt(this.cookieService.get('roleId')) != '1') {
       this.router.navigate(['home', this.cookieService.get('user')]);
-    }
-    if (this.casesService.cases.length) {
-      this.spinner = false;
     } else {
-      this.casesService.getCases().subscribe({
-        next: () => {
+      this.casesService.getCaseStates().subscribe(() => {
+        if (this.casesService.cases.length) {
           this.spinner = false;
-        },
+        } else {
+          this.casesService.getCases().subscribe({
+            next: () => {
+              this.spinner = false;
+            },
+          });
+        }
       });
     }
   }
