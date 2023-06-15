@@ -18,6 +18,8 @@ import { HomeClientComponent } from './pages/home-client/home-client.component';
 import { SharedModule } from '../shared/shared.module';
 import { MoneybackRoutingModule } from './moneyback-routing.module';
 import { CaseCommentsPopupComponent } from './components/case-comments-popup/case-comments-popup.component';
+import { LoadFilesComponent } from './components/load-files/load-files.component';
+import { PopUpLoadFilesComponent } from './components/pop-up-load-files/pop-up-load-files.component';
 
 
 
@@ -32,7 +34,9 @@ import { CaseCommentsPopupComponent } from './components/case-comments-popup/cas
     PopUpComponent,
     AuthUserPopupComponent,
     HomeClientComponent,
-    CaseCommentsPopupComponent
+    CaseCommentsPopupComponent,
+    LoadFilesComponent,
+    PopUpLoadFilesComponent
   ],
   imports: [
     CommonModule,

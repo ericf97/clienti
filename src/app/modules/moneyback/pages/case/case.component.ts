@@ -43,10 +43,6 @@ export class CaseComponent implements OnInit {
   countries: Country[] = COUNTRIES;
   selectedCountry!: Country;
 
-  caseFiles: FilesInterface[] = [];
-
-  newFiles: FilesInterface[] = [];
-
   matcher = new MyErrorStateMatcher();
 
   caseForm: FormGroup = this.fb.group({
@@ -133,32 +129,6 @@ export class CaseComponent implements OnInit {
     this.router.navigate(['/home']);
   }
 
-  async onFileSelected(e: any) {
-    for (let i = 0; i < e.target.files.length; i++) {
-      const file = e.target.files[i];
-      let dataBase64 = (await getBase64(file)) as string;
-      dataBase64 = dataBase64.split('base64,')[1];
-      const caseFile: FilesInterface = {
-        Name: file.name,
-        fileData: dataBase64,
-        caseId: this.case.caseId,
-      };
-      this.newFiles.push(caseFile);
-    }
-    this.caseFiles = [...this.caseFiles, ...this.newFiles];
-    console.log(this.caseFiles);
-    this.caseFiles = this.caseFiles.filter(this.onlyUnique);
-
-    console.log(this.caseFiles);
-  }
-
-  async postFiles() {
-    console.log(this.newFiles);
-    for (let i = 0; i < this.newFiles.length; i++) {
-      await this.fileService.postFiles(this.newFiles[i]).subscribe(console.log);
-    }
-  }
-
   postCase() {
     this.caseForm.markAllAsTouched();
     if (this.caseForm.valid) {
@@ -172,7 +142,7 @@ export class CaseComponent implements OnInit {
       this.case = { ...this.case, ...this.caseForm.value };
       this.case.phone = this.case.phone?.toString();
       console.log(this.case);
-      this.postFiles();
+      // this.postFiles();
       if (this.newCase) {
         this.casesService.postCase(this.case).subscribe({
           next: (resp) => {
@@ -197,10 +167,6 @@ export class CaseComponent implements OnInit {
     }
   }
 
-  deleteFile(name: string) {
-    const aux = this.caseFiles.filter((item) => item.Name !== name);
-    this.caseFiles = aux;
-  }
 
   onKey({ value }: any) {
     this.foundEmails = this.search(value);
@@ -215,18 +181,5 @@ export class CaseComponent implements OnInit {
   selectCountry(country: string) {
     this.selectedCountry = COUNTRIES.find((a) => a.spa == country)!;
   }
-
-  //PARA NO CARGAR ARCHIVOS DUPLICADOS
-  onlyUnique(value: any, index: any, self: any) {
-    return self.indexOf(value) === index;
-  }
 }
 
-async function getBase64(file: File): Promise<string | ArrayBuffer | null> {
-  return new Promise((resolve, reject) => {
-    const reader = new FileReader();
-    reader.readAsDataURL(file);
-    reader.onload = () => resolve(reader.result);
-    reader.onerror = (error) => reject(error);
-  });
-}

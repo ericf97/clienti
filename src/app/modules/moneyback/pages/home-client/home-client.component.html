@@ -57,6 +57,20 @@
               </div>
             </td>
           </ng-container>
+          <ng-container matColumnDef="files">
+            <th mat-header-cell *matHeaderCellDef>Archivos</th>
+            <td mat-cell *matCellDef="let case">
+              <div class="d-flex">
+                <button
+                  type="button"
+                  (click)="openLoadFilesDialog(case.caseId)"
+                  class="btn btn-primary ms-1 mb-1"
+                >
+                  Ver archivos
+                </button>
+              </div>
+            </td>
+          </ng-container>
           <tr
             mat-header-row
             *matHeaderRowDef="[
@@ -64,14 +78,22 @@
               'amount',
               'moneyType',
               'status',
-              'comments'
+              'comments',
+              'files'
             ]"
           ></tr>
           <tr
             mat-row
             *matRowDef="
               let case;
-              columns: ['name', 'amount', 'moneyType', 'status', 'comments']
+              columns: [
+                'name',
+                'amount',
+                'moneyType',
+                'status',
+                'comments',
+                'files'
+              ]
             "
           ></tr>
         </table>

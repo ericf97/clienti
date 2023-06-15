@@ -1,0 +1,32 @@
+<div class="load-files">
+  <button type="button" (click)="loadFiles.click()" class="btn btn-success">
+    Subir archivos
+  </button>
+  <input
+    type="file"
+    multiple
+    (change)="onFileSelected($event)"
+    #loadFiles
+    [ngStyle]="{ display: 'none' }"
+    accept="image/*, .pdf, .doc, .docx"
+  />
+  <mat-card class="load-files-card my-3 p-2" *ngIf="caseFiles.length">
+    <div *ngFor="let file of caseFiles" class="row w-100 p-2">
+      <div class="col-6">
+        <h5>{{ file.fileName }}</h5>
+      </div>
+      <div class="col-6 d-flex justify-content-end align-items-center">
+        <button
+          type="button"
+          (click)="downloadFile(file.fileName!)"
+          class="me-3"
+        >
+          Descargar
+        </button>
+        <button mat-icon-button (click)="openDeletePopUp(file.fileName!)">
+          <mat-icon>close</mat-icon>
+        </button>
+      </div>
+    </div>
+  </mat-card>
+</div>

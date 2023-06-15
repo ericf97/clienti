@@ -6,6 +6,7 @@ import { CookieService } from 'ngx-cookie-service';
 import { MatDialog } from '@angular/material/dialog';
 import { CaseCommentsPopupComponent } from '../../components/case-comments-popup/case-comments-popup.component';
 import { Case } from '../../interfaces/case.interface';
+import { PopUpLoadFilesComponent } from '../../components/pop-up-load-files/pop-up-load-files.component';
 
 @Component({
   selector: 'app-home-client',
@@ -62,6 +63,16 @@ export class HomeClientComponent implements OnInit {
           this.casesService.editCase(userCase).subscribe(console.log);
           this.dialog.closeAll();
         },
+      },
+    });
+  }
+
+  openLoadFilesDialog(caseId: number) {
+    this.dialog.open(PopUpLoadFilesComponent, {
+      height: '90vh',
+      width: '90vw',
+      data: {
+        caseId: caseId,
       },
     });
   }
