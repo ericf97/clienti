@@ -13,7 +13,7 @@
   <mat-card class="load-files-card my-3 p-2" *ngIf="caseFiles.length">
     <div *ngFor="let file of caseFiles" class="row w-100 p-2">
       <div class="col-6">
-        <h5>{{ file.fileName }}</h5>
+        <h6 class="text-truncate">{{ file.fileName }}</h6>
       </div>
       <div class="col-6 d-flex justify-content-end align-items-center">
         <button

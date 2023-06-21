@@ -15,6 +15,8 @@ import { FilesService } from '../../services/files.service';
 import { ErrorStateMatcher } from '@angular/material/core';
 import { DatePipe } from '@angular/common';
 import { COUNTRIES, Country } from 'src/app/modules/shared/constants/countries';
+import { CookieService } from 'ngx-cookie-service';
+import { AuthService } from 'src/app/modules/auth/services/auth.service';
 
 export class MyErrorStateMatcher implements ErrorStateMatcher {
   isErrorState(
@@ -45,6 +47,8 @@ export class CaseComponent implements OnInit {
 
   matcher = new MyErrorStateMatcher();
 
+  isClient: boolean = false;
+
   caseForm: FormGroup = this.fb.group({
     country: [''],
     amountLost: ['', [Validators.required]],
@@ -67,38 +71,58 @@ export class CaseComponent implements OnInit {
     public casesService: CasesService,
     private fileService: FilesService,
     private fb: FormBuilder,
-    public datePipe: DatePipe
+    public datePipe: DatePipe,
+    private cookieService: CookieService,
+    private authService: AuthService
   ) {}
 
   ngOnInit(): void {
     this.casesService.getCaseStates().subscribe();
     this.activatedRoute.params.subscribe(({ id }) => {
-      this.casesService.getCases().subscribe((resp) => {
-        if (id != 'new') {
-          this.newCase = false;
-          this.case = resp.find((caso) => caso.caseId == id)!;
-          // this.fileService.getFiles(this.case.caseId!).subscribe((resp) => {
-          //   console.log('resp', resp);
-          //   this.caseFiles = resp;
-          // });
-          console.log(this.case);
-
-          this.resetForm();
-          this.disableForm();
-          this.spinner = false;
-        } else {
-          this.emails = [...new Set<string>(resp.map((a) => a.email))];
-          this.foundEmails = this.emails;
-          this.spinner = false;
-          this.editing = true;
-        }
-      });
+      if (this.authService.decrypt(this.cookieService.get('roleId')) == '1') {
+        this.casesService.getCases().subscribe(() => {
+          this.loadCase(id);
+        });
+      } else {
+        this.isClient = true;
+        this.casesService
+          .getUserCases(
+            this.authService.decrypt(this.cookieService.get('userId'))
+          )
+          .subscribe(() => {
+            this.loadCase(id);
+          });
+      }
     });
+  }
+
+  loadCase(id: any) {
+    const cases = this.casesService.cases;
+    if (id != 'new') {
+      this.newCase = false;
+      this.case = cases.find((caso) => caso.caseId == id)!;
+      // this.fileService.getFiles(this.case.caseId!).subscribe((resp) => {
+      //   console.log('resp', resp);
+      //   this.caseFiles = resp;
+      // });
+      this.resetForm();
+      this.disableForm();
+      this.spinner = false;
+    } else {
+      this.emails = [...new Set<string>(cases.map((a) => a.email))];
+      this.foundEmails = this.emails;
+      this.spinner = false;
+      this.editing = true;
+    }
   }
 
   enableForm() {
     this.editing = true;
-    this.caseForm.enable();
+    if (this.isClient) {
+      this.caseForm.controls['caseDetails'].enable();
+    } else {
+      this.caseForm.enable();
+    }
   }
 
   disableForm() {
@@ -167,7 +191,6 @@ export class CaseComponent implements OnInit {
     }
   }
 
-
   onKey({ value }: any) {
     this.foundEmails = this.search(value);
   }
@@ -182,4 +205,3 @@ export class CaseComponent implements OnInit {
     this.selectedCountry = COUNTRIES.find((a) => a.spa == country)!;
   }
 }
-

@@ -63,8 +63,13 @@ export class CasesService {
   }
 
   getUserCases(userId: string) {
-    return this.http.get<Case[]>(
-      `${this.apiUrl}/cases/user/${userId}`
+    return this.http.get<Case[]>(`${this.apiUrl}/cases/user/${userId}`).pipe(
+      map((resp) => {
+        if (!this.cases.length) {
+          this.cases = resp;
+        }
+        return resp;
+      })
     );
   }
 }

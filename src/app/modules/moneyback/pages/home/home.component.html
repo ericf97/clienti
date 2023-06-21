@@ -24,50 +24,6 @@
         <h2>Lista de casos</h2>
       </mat-card-header>
       <mat-card-content>
-        <!-- <mat-list>
-          <mat-list-item
-            *ngFor="let case of casesService.cases; let i = index"
-            class="row my-2"
-          >
-            <div class="col-3">
-              <h5>{{ case.name + " " + (case.lastName || "") | titlecase }}</h5>
-            </div>
-            <div class="col-3 d-flex align-items-baseline justify-content-end">
-              <h5 class="me-1">
-                {{ case.amountLost }}
-              </h5>
-              <h6>{{ case.moneyType | uppercase }}</h6>
-            </div>
-            <div class="col-3 d-flex align-items-center justify-content-end">
-              <h6>Estado:</h6>
-              <app-progress-status
-                *ngIf="casesService.caseStates"
-                [stateId]="case.stateId!"
-              ></app-progress-status>
-            </div>
-            <div class="col-3 d-flex align-items-baseline justify-content-end">
-              <p class="text-end me-2">
-                {{ case.authId ? "Usuario habilitado" : "" }}
-                <a
-                  class="mx-2 dark"
-                  (click)="openDialog(case.userId)"
-                  *ngIf="!case.authId"
-                  ><strong>Habilitar</strong></a
-                >
-              </p>
-              <button
-                type="button"
-                [routerLink]="['/home/case', case.caseId]"
-                class="btn btn-primary ms-1 mb-1"
-              >
-                Ver más
-              </button>
-            </div>
-            <mat-divider
-              *ngIf="i != casesService.cases.length - 1"
-            ></mat-divider>
-          </mat-list-item>
-        </mat-list> -->
         <table mat-table #table [dataSource]="casesService.cases" class="w-100">
           <ng-container matColumnDef="name">
             <th mat-header-cell *matHeaderCellDef>Nombre</th>

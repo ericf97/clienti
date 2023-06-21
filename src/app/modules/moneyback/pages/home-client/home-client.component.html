@@ -43,7 +43,7 @@
               ></app-progress-status>
             </td>
           </ng-container>
-          <ng-container matColumnDef="comments">
+          <!-- <ng-container matColumnDef="comments">
             <th mat-header-cell *matHeaderCellDef></th>
             <td mat-cell *matCellDef="let case">
               <div class="d-flex">
@@ -70,30 +70,28 @@
                 </button>
               </div>
             </td>
+          </ng-container> -->
+          <ng-container matColumnDef="more">
+            <th mat-header-cell *matHeaderCellDef></th>
+            <td mat-cell *matCellDef="let case" class="">
+              <button
+                type="button"
+                [routerLink]="['/home/case', case.caseId]"
+                class="btn btn-primary ms-1 mb-1"
+              >
+                Ver más
+              </button>
+            </td>
           </ng-container>
           <tr
             mat-header-row
-            *matHeaderRowDef="[
-              'name',
-              'amount',
-              'moneyType',
-              'status',
-              'comments',
-              'files'
-            ]"
+            *matHeaderRowDef="['name', 'amount', 'moneyType', 'status', 'more']"
           ></tr>
           <tr
             mat-row
             *matRowDef="
               let case;
-              columns: [
-                'name',
-                'amount',
-                'moneyType',
-                'status',
-                'comments',
-                'files'
-              ]
+              columns: ['name', 'amount', 'moneyType', 'status', 'more']
             "
           ></tr>
         </table>
