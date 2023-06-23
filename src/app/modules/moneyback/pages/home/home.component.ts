@@ -34,6 +34,8 @@ export class HomeComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    console.log('dasdsada');
+    
     if (this.authService.decrypt(this.cookieService.get('roleId')) != '1') {
       this.router.navigate(['home', this.cookieService.get('user')]);
     } else {

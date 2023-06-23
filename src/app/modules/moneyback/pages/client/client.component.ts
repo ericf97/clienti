@@ -17,7 +17,6 @@ export class ClientComponent implements OnInit {
 
   ngOnInit(): void {
     this.activatedRoute.params.subscribe(({ id }) => {
-      console.log(this.cliente);
     });
   }
 }

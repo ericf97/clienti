@@ -38,7 +38,6 @@ export class HomeClientComponent implements OnInit {
           )
           .subscribe((resp) => {
             this.casesService.cases = resp;
-            console.log(this.casesService.cases);
             this.user = this.authService.decrypt(
               this.cookieService.get('user')
             );
@@ -54,11 +53,11 @@ export class HomeClientComponent implements OnInit {
       width: '60vw',
       data: {
         text: this.casesService.cases.find((a) => a.caseId == caseId)
-          ?.caseDetails,
+          ?.description,
         callback: (text: string) => {
           let userCase: Case = {
             ...this.casesService.cases.find((a) => a.caseId == caseId)!,
-            caseDetails: text,
+            description: text,
           };
           this.casesService.editCase(userCase).subscribe(console.log);
           this.dialog.closeAll();

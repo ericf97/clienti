@@ -51,16 +51,16 @@ export class CaseComponent implements OnInit {
 
   caseForm: FormGroup = this.fb.group({
     country: [''],
-    amountLost: ['', [Validators.required]],
+    amount: ['', [Validators.required]],
     email: ['', [Validators.required, Validators.email]],
     lastName: ['', [Validators.required]],
     dateDeposit: ['', [Validators.required]],
     name: ['', [Validators.required]],
     nameEnterprise: ['', [Validators.required]],
     nameState: ['', [Validators.required]],
-    depositType: ['', [Validators.required]],
+    methodType: ['', [Validators.required]],
     moneyType: ['', [Validators.required]],
-    caseDetails: [''],
+    description: [''],
     phone: [''],
     newUser: [true],
   });
@@ -119,7 +119,7 @@ export class CaseComponent implements OnInit {
   enableForm() {
     this.editing = true;
     if (this.isClient) {
-      this.caseForm.controls['caseDetails'].enable();
+      this.caseForm.controls['description'].enable();
     } else {
       this.caseForm.enable();
     }
@@ -133,17 +133,19 @@ export class CaseComponent implements OnInit {
   resetForm() {
     this.selectCountry(this.case.country!)!;
     this.caseForm.reset({
-      amountLost: this.case.amountLost,
+      amount: this.case.amount,
       email: this.case.email,
       lastName: this.case.lastName,
       dateDeposit: this.case.dateDeposit,
       name: this.case.name,
       nameEnterprise: this.case.nameEnterprise,
       nameState: this.case.nameState,
-      depositType: this.case.depositType,
+      methodType: this.case.methodType,
       moneyType: this.case.moneyType,
       phone: this.case.phone,
-      caseDetails: this.case.caseDetails,
+      description: this.case.description,
+      country: this.case.country,
+      
       newUser: false,
     });
     this.disableForm();
@@ -156,7 +158,6 @@ export class CaseComponent implements OnInit {
   postCase() {
     this.caseForm.markAllAsTouched();
     if (this.caseForm.valid) {
-      console.log('post');
       this.caseForm.controls['dateDeposit'].setValue(
         this.datePipe.transform(
           this.caseForm.controls['dateDeposit'].value,
@@ -165,7 +166,6 @@ export class CaseComponent implements OnInit {
       );
       this.case = { ...this.case, ...this.caseForm.value };
       this.case.phone = this.case.phone?.toString();
-      console.log(this.case);
       // this.postFiles();
       if (this.newCase) {
         this.casesService.postCase(this.case).subscribe({

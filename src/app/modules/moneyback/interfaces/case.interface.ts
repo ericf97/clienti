@@ -1,13 +1,13 @@
 export interface Case {
   country?: string;
-  amountLost: number;
+  amount: number;
   authId?: number;
   caseId?: number;
-  caseDetails?: string; 
+  description?: string; 
   dateDeposit: string | Date;
   email: string;
   lastName: string;
-  depositType: string;
+  methodType: string;
   moneyType: string;
   name: string;
   nameEnterprise: string;

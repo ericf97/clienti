@@ -136,7 +136,7 @@
                   <input
                     type="number"
                     matInput
-                    formControlName="amountLost"
+                    formControlName="amount"
                     [errorStateMatcher]="matcher"
                   />
                 </mat-form-field>
@@ -185,7 +185,7 @@
                   <mat-label>Tipo de depósito</mat-label>
                   <mat-select
                     disableOptionCentering=""
-                    formControlName="depositType"
+                    formControlName="methodType"
                     [errorStateMatcher]="matcher"
                   >
                     <mat-option value="paypal"> PayPal </mat-option>
@@ -219,7 +219,7 @@
                 <textarea
                   matInput
                   rows="4"
-                  formControlName="caseDetails"
+                  formControlName="description"
                 ></textarea>
               </mat-form-field>
               <app-load-files></app-load-files>
