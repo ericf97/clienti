@@ -4,8 +4,8 @@
 
 export const environment = {
   production: false,
-  // apiBase: "https://dev-moneyback.azurewebsites.net/api"
-  apiBase: "http://localhost:3000/api"
+  apiBase: "https://dev-moneyback.azurewebsites.net/api"
+  // apiBase: "http://localhost:3000/api"
 };
 
 /*
