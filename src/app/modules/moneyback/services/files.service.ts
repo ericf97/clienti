@@ -26,4 +26,8 @@ export class FilesService {
   postFiles( file: FilesInterface) {
     return this.http.post<FilesInterface>(`${this.apiUrl}/file` ,file ,this.httpOptions);
   }
+
+  deleteFile(file: FilesInterface) {
+    return this.http.delete(`${this.apiUrl}/file/${file.caseId}/${file.fileName}`, this.httpOptions);
+  }
 }

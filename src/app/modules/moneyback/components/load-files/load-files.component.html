@@ -5,7 +5,7 @@
   <input
     type="file"
     multiple
-    (change)="onFileSelected($event)"
+    (change)="fileSelectedConfirm($event)"
     #loadFiles
     [ngStyle]="{ display: 'none' }"
     accept="image/*, .pdf, .doc, .docx"

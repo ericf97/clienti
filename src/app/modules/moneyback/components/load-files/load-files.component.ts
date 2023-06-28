@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, Output } from '@angular/core';
 import { FilesInterface } from '../../interfaces/files.interface';
 import { FilesService } from '../../services/files.service';
 import * as FileSaver from 'file-saver';
@@ -13,7 +13,7 @@ import { PopUpComponent } from '../pop-up/pop-up.component';
 export class LoadFilesComponent implements OnInit {
   
   @Input() caseFiles: FilesInterface[] = [];
-  @Input() caseId!: number;
+  @Input() caseId?: number;
 
   newFiles: FilesInterface[] = [];
 
@@ -27,22 +27,48 @@ export class LoadFilesComponent implements OnInit {
 
   constructor(private fileService: FilesService, private dialog: MatDialog) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+
+    if(this.caseId) {
+      this.fileService.getFiles(this.caseId).subscribe(
+        {
+          next: (result) => {
+            this.caseFiles = [...result];
+          }
+        }
+      )
+    }
+  }
 
   async onFileSelected(e: any) {
+
     for (let i = 0; i < e.target.files.length; i++) {
       const file = e.target.files[i];
       let dataBase64 = (await getBase64(file)) as string;
-      // dataBase64 = dataBase64.split('base64,')[1];
+      dataBase64 = dataBase64.split('base64,')[1];
       const caseFile: FilesInterface = {
         fileName: file.name,
         fileData: dataBase64,
         caseId: this.caseId,
       };
       this.newFiles.push(caseFile);
+      await this.postFiles();
+
     }
     this.caseFiles = [...this.caseFiles, ...this.newFiles];
     this.caseFiles = this.caseFiles.filter(this.onlyUnique);
+  }
+
+  fileSelectedConfirm (e: any) {
+    this.dialog.open(PopUpComponent, {
+      data: {
+        text: 'Su archivo pasara por un proceso de escaneo antes de ser subido a nuestros servidores',
+        callback: () => {
+          this.onFileSelected(e);
+          this.dialog.closeAll();
+        }
+      }
+    });
   }
   //PARA NO CARGAR ARCHIVOS DUPLICADOS
   onlyUnique(value: any, index: any, self: any) {
@@ -70,9 +96,14 @@ export class LoadFilesComponent implements OnInit {
     });
   }
 
-  deleteFile(name: string) {
-    const aux = this.caseFiles.filter((item) => item.fileName !== name);
-    this.caseFiles = aux;
+  async deleteFile(name: string) {
+    const item = this.caseFiles.filter((item) => item.fileName === name)[0];
+
+    this.fileService.deleteFile(item).subscribe({
+      next: () => {
+        this.caseFiles = this.caseFiles.filter((item) => item.fileName !== name);
+      }
+    });
   }
 
   downloadFile(fileName: string) {
