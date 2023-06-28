@@ -1,0 +1,10 @@
+<mat-progress-bar
+  mode="determinate"
+  [value]="progress.percentage"
+  [ngClass]="progress.class"
+  class="ms-2"
+  [matTooltip]="progress.nameState"
+  matTooltipPosition="above"
+  matTooltipHideDelay="200"
+  *ngIf="progress.limit"
+></mat-progress-bar>

@@ -3,7 +3,9 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  production: false
+  production: false,
+  apiBase: "https://dev-moneyback.azurewebsites.net/api"
+  // apiBase: "http://localhost:3000/api"
 };
 
 /*

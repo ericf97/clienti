@@ -1,0 +1,12 @@
+<mat-list-option
+  *ngFor="let nav of navList"
+  [routerLink]="nav.link"
+  [selected]="router.url.includes(nav.aux)"
+>
+  <span class="d-flex py-3 px-2">
+    <mat-icon>{{ nav.icon }}</mat-icon>
+    <h4 class="my-0">
+      {{ nav.title }}
+    </h4>
+  </span>
+</mat-list-option>

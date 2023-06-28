@@ -1,0 +1,17 @@
+.mat-list-option {
+  height: 60px;
+  color: white;
+  .mat-icon {
+    font-size: 26px;
+    margin-right: 8px;
+  }
+  h4 {
+    margin-bottom: 0;
+  }
+  &:hover {
+    color: #56a8f3;
+  }
+  &[aria-selected="true"] {
+    color: #56a8f3;
+  }
+}

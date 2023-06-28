@@ -1,0 +1,32 @@
+.header {
+  margin: 0%;
+  width: 100vw;
+  height: 80px;
+  background-color: #2f3e46;
+  color: #fbfbfb;
+  z-index: 4;
+  box-shadow: 0px 4px 16px rgba(3, 5, 31, 0.5) !important;
+
+  .row {
+    height: 100%;
+    .mobile button {
+      display: none;
+    }
+    .last .btn{
+      height: 64%;
+    }
+  }
+  @media (max-width: 990px) {
+    .row {
+      .desk {
+        display: none;
+      }
+      .mobile button {
+        display: block;
+      }
+      .last .btn {
+        height: 100%;
+      }
+    }
+  }
+}

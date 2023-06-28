@@ -1,0 +1,240 @@
+a {
+  text-decoration: none;
+  color: #fff;
+  &:hover {
+    color: #fff;
+    opacity: 0.85;
+    cursor: pointer;
+  }
+  &.dark {
+    color: #0d6efd;
+    &:hover {
+      opacity: 0.9;
+    }
+  }
+}
+
+.spacer {
+  flex: 1 1 auto;
+}
+
+.landing {
+  background-color: #f5f7f8;
+  margin-top: 20px;
+  padding-top: 20px;
+  z-index: 1;
+}
+
+.color-white {
+  color: #fbfbfb;
+}
+
+.mat-card {
+  padding: 0 !important;
+  .mat-card-header {
+    padding: 4px;
+    border-top-right-radius: 6px;
+    border-top-left-radius: 6px;
+    background-color: #2f3e46;
+    color: white;
+    justify-content: center;
+    .mat-card-header-text {
+      display: none;
+    }
+  }
+  .mat-card-content {
+    padding: 10px 20px 10px 20px;
+  }
+}
+
+.mat-list-base {
+  margin-bottom: 6px;
+}
+
+mat-divider {
+  margin: 60px;
+}
+
+p {
+  align-self: center;
+  font-size: 16px;
+}
+h2 {
+  font-size: 22px;
+}
+
+.mat-drawer-inner-container {
+  width: 70vw !important;
+  background-color: #1f292f;
+}
+
+.mat-drawer-content {
+  overflow-x: hidden !important;
+  overflow-y: scroll;
+}
+
+.mat-form-field {
+  &.mat-form-field-appearance-outline {
+    .mat-form-field-infix {
+      padding: 8px 0 10px 0;
+      display: flex;
+    }
+    .mat-select {
+      padding: 2px 0 4px 0;
+    }
+    .mat-form-field-flex {
+      .mat-form-field-outline {
+        color: var(--bs-dark);
+        border-radius: 6px;
+        &.mat-form-field-outline-thick {
+          * {
+            color: var(--bs-dark);
+            border-width: 1px;
+          }
+        }
+      }
+      .mat-form-field-label-wrapper {
+        .mat-form-field-label {
+          color: var(--bs-dark);
+        }
+      }
+    }
+    &.mat-focused {
+      .mat-form-field-flex {
+        .mat-form-field-outline {
+          &.mat-form-field-outline-thick {
+            * {
+              color: var(--bs-primary);
+              border-width: 1px;
+            }
+          }
+        }
+        .mat-form-field-label-wrapper {
+          .mat-form-field-label {
+            color: var(--bs-primary);
+          }
+        }
+        .mat-input-element {
+          color: var(--bs-primary);
+          text-decoration: none !important;
+        }
+      }
+    }
+    &.mat-form-field-invalid {
+      .mat-form-field-outline {
+        &.mat-form-field-outline-thick {
+          .mat-form-field-outline-start {
+            border-radius: 6px 0px 0px 6px !important;
+            min-width: 10px !important;
+          }
+          .mat-form-field-outline-end {
+            border-radius: 0px 6px 6px 0px !important;
+          }
+          * {
+            color: red !important;
+            border-width: 1px;
+          }
+        }
+      }
+    }
+  }
+  .mat-input-element {
+    background-color: transparent;
+    padding: 3px;
+  }
+}
+.mat-calendar-abbr {
+  text-decoration: none !important;
+  cursor: default !important;
+}
+
+.mat-datepicker-toggle .mat-icon-button {
+  height: 20px;
+  margin-top: -8px;
+}
+
+.mat-form-field-disabled {
+  .mat-input-element {
+    color: var(--bs-gray-dark);
+  }
+  &.mat-form-field-appearance-outline {
+    .mat-form-field-flex {
+      .mat-form-field-outline {
+        color: var(--bs-gray);
+      }
+
+      .mat-form-field-label-wrapper {
+        .mat-form-field-label {
+          color: var(--bs-gray);
+        }
+      }
+    }
+  }
+}
+
+.btn {
+  width: auto;
+}
+
+//PROGRESS BAR
+.mat-progress-bar {
+  height: 10px !important;
+  border: 1px solid #acaaaa;
+  border-radius: 5px;
+  &.orange {
+    .mat-progress-bar-buffer {
+      background: #ffa70044;
+    }
+    .mat-progress-bar-fill::after {
+      background: #ffa700;
+    }
+  }
+  &.yellow {
+    .mat-progress-bar-buffer {
+      background: #ffd60044;
+    }
+    .mat-progress-bar-fill::after {
+      background: #ffd600;
+    }
+  }
+  &.green {
+    .mat-progress-bar-buffer {
+      background: #a3ff0044;
+    }
+    .mat-progress-bar-fill::after {
+      background: #a3ff00;
+    }
+  }
+  &.success {
+    .mat-progress-bar-buffer {
+      background: #2cba0044;
+    }
+    .mat-progress-bar-fill::after {
+      background: #2cba00;
+    }
+  }
+}
+.mat-progress-bar-background {
+  fill: transparent;
+}
+
+//TOOLTIPS
+
+.mat-tooltip {
+  background: #252525;
+  font-size: 12px;
+}
+
+//INPUT ARROWS HIDE
+
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type="number"] {
+  -moz-appearance: textfield;
+}

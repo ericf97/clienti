@@ -1,0 +1,22 @@
+.content {
+  background-color: var(--gray);
+
+  .layout-container {
+    padding-right: 10px;
+    padding-left: 10px;
+    .layout-sidenav {
+      background-color: #1f292f;
+      height: auto;
+      min-height: 100vh;
+      padding: 0;
+    }
+  }
+  
+  
+  @media (max-width: 990px) {
+    .layout-sidenav {
+      display: none;
+    }
+  }
+}
+

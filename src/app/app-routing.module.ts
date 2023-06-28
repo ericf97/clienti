@@ -1,24 +1,19 @@
 import { NgModule } from '@angular/core';
-import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
-import { AppComponent } from './app.component';
-import { AuthComponent } from './modules/auth/auth.component';
+import {
+  RouterModule,
+  Routes,
+} from '@angular/router';
 
 const routes: Routes = [
   {
     path: '',
-    component: AppComponent,
-    children: [
-      {
-        path: '',
-        loadChildren: () => import('./modules/auth/auth.module').then((m) => m.AuthModule)
-      }
-    ]
+    loadChildren: () =>
+      import('./modules/shared/shared.module').then((m) => m.SharedModule),
   },
-  { path: '**', component: AuthComponent } //TODO: Crear page not found component
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes, { preloadingStrategy: PreloadAllModules })],
-  exports: [RouterModule]
+  imports: [RouterModule.forRoot(routes)],
+  exports: [RouterModule],
 })
 export class AppRoutingModule {}

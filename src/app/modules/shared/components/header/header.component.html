@@ -1,0 +1,22 @@
+<div class="header px-md-4 px-2">
+  <div class="row">
+    <div class="col-3">
+      <div class="desk p-3">
+        <a routerLink="/home">
+          <h2>MoneyBack</h2>
+        </a>
+      </div>
+      <div class="mobile p-3">
+        <button mat-icon-button (click)="toggleHandler()" class="mt-1">
+          <mat-icon>menu</mat-icon>
+        </button>
+      </div>
+    </div>
+    <div class="col d-flex justify-content-end p-3 last" *ngIf="user">
+      <span class="mx-3 mt-3">Bienvenido {{ user }}</span>
+      <button class="btn btn-danger" type="button" (click)="logout()">
+        Logout
+      </button>
+    </div>
+  </div>
+</div>
