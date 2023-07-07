@@ -39,15 +39,13 @@ export class HomeComponent implements OnInit {
       this.router.navigate(['home', this.cookieService.get('user')]);
     } else {
       this.casesService.getCaseStates().subscribe(() => {
-        if (this.casesService.cases.length) {
-          this.spinner = false;
-        } else {
-          this.casesService.getCases().subscribe({
-            next: () => {
-              this.spinner = false;
-            },
-          });
-        }
+
+        this.casesService.getCases().subscribe({
+          next: () => {
+            this.spinner = false;
+          },
+        });
+
       });
     }
   }
