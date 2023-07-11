@@ -28,9 +28,9 @@ export class CasesService {
   getCases() {
     return this.http.get<Case[]>(`${this.apiUrl}/cases`, this.httpOptions).pipe(
       map((resp) => {
-        if (!this.cases.length) {
+        // if (!this.cases.length) {
           this.cases = resp;
-        }
+        // }
         return resp;
       })
     );

@@ -57,7 +57,7 @@ export class CaseComponent implements OnInit {
     dateDeposit: ['', [Validators.required]],
     name: ['', [Validators.required]],
     nameEnterprise: ['', [Validators.required]],
-    nameState: ['', [Validators.required]],
+    stateId: ['', [Validators.required]],
     methodType: ['', [Validators.required]],
     moneyType: ['', [Validators.required]],
     description: [''],
@@ -139,15 +139,15 @@ export class CaseComponent implements OnInit {
       dateDeposit: this.case.dateDeposit,
       name: this.case.name,
       nameEnterprise: this.case.nameEnterprise,
-      nameState: this.case.nameState,
+      stateId: this.case.stateId,
       methodType: this.case.methodType,
       moneyType: this.case.moneyType,
       phone: this.case.phone,
       description: this.case.description,
       country: this.case.country,
-      
       newUser: false,
     });
+
     this.disableForm();
   }
 

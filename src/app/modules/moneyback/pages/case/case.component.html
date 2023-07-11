@@ -149,12 +149,9 @@
                     formControlName="moneyType"
                     [errorStateMatcher]="matcher"
                   >
-                    <mat-option value="crypto"> Criptomonedas </mat-option>
-                    <mat-option value="market"> Mercado de valores </mat-option>
-                    <mat-option value="actions">
-                      Acciones de una empresa específica
-                    </mat-option>
-                    <mat-option value="other"> Otros </mat-option>
+                    <mat-option value="USD"> USD </mat-option>
+                    <mat-option value="Euro"> Euro </mat-option>
+                    <mat-option value="Other"> Other </mat-option>
                   </mat-select>
                 </mat-form-field>
               </div>
@@ -188,10 +185,9 @@
                     formControlName="methodType"
                     [errorStateMatcher]="matcher"
                   >
-                    <mat-option value="paypal"> PayPal </mat-option>
-                    <mat-option value="cash"> Efectivo </mat-option>
-                    <mat-option value="deposit bank"> Depósito </mat-option>
-                    <mat-option value="crypto"> Criptomonedas </mat-option>
+                    <mat-option value="Wire Transfer"> Wire Transfer </mat-option>
+                    <mat-option value="Credit card"> Credit card </mat-option>
+                    <mat-option value="Other"> Other </mat-option>
                   </mat-select>
                 </mat-form-field>
               </div>
@@ -200,12 +196,12 @@
                   <mat-label>Estado del caso</mat-label>
                   <mat-select
                     disableOptionCentering=""
-                    formControlName="nameState"
+                    formControlName="stateId"
                     [errorStateMatcher]="matcher"
                   >
                     <mat-option
                       *ngFor="let state of casesService.caseStates"
-                      [value]="state.nameState"
+                      [value]="state.stateId"
                     >
                       {{ state.stateId + " - " + state.nameState | titlecase }}
                     </mat-option>
@@ -243,7 +239,8 @@
             >
               {{ editing ? "Cancelar" : "Editar" }}
             </button>
-            <button type="submit" class="btn btn-success mx-2">Aceptar</button>
+            <button *ngIf="editing" type="submit" class="btn btn-success mx-2">Aceptar</button>
+            <button *ngIf="!editing" (click)="goBack()" class="btn btn-success mx-2">Volver</button>
           </div>
         </form>
       </div>
