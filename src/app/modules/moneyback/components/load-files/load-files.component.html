@@ -16,13 +16,17 @@
         <h6 class="text-truncate">{{ file.fileName }}</h6>
       </div>
       <div class="col-6 d-flex justify-content-end align-items-center">
-        <button
-          type="button"
-          (click)="downloadFile(file.fileName!)"
-          class="me-3"
+        <a
+        href="{{file.download}}"
+        target="_blank"
         >
+          <button
+          type="button"
+          class="me-3"
+          >
           Descargar
         </button>
+      </a>
         <button mat-icon-button (click)="openDeletePopUp(file.fileName!)">
           <mat-icon>close</mat-icon>
         </button>

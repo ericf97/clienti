@@ -5,9 +5,10 @@ export interface Case {
   caseId?: number;
   description?: string; 
   dateDeposit: string | Date;
+  dateSaved: Date;
   email: string;
   lastName: string;
-  methodType: string;
+  depositType: string;
   moneyType: string;
   name: string;
   nameEnterprise: string;
@@ -15,5 +16,4 @@ export interface Case {
   phone?: number | string;
   stateId?: number;
   userId?: number;
-
 }

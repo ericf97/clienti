@@ -1,5 +1,6 @@
 export interface FilesInterface {
   caseId?: number;
-  fileName?: string;
+  fileName: string;
   fileData?: string;
+  download?: string;
 }
