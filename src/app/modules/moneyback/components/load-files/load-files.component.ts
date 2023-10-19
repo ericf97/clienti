@@ -34,6 +34,7 @@ export class LoadFilesComponent implements OnInit {
         {
           next: (result) => {
             this.caseFiles = [...result];
+            console.log(this.caseFiles)
           }
         }
       )
@@ -106,36 +107,6 @@ export class LoadFilesComponent implements OnInit {
     });
   }
 
-  downloadFile(fileName: string) {
-    let file = this.caseFiles.find((a) => a.fileName == fileName);
-
-    //extract type of file
-    let type = file?.fileData?.split(';base64,')[0].replace('data:', '');
-
-    //splits valid base64string
-    let base64string = file?.fileData?.split('base64,')[1];
-
-    //splits base64string in an array of uint8 with 512 length for better perfomance
-    const byteCharacters = atob(base64string!);
-    const byteArrays = [];
-    for (let offset = 0; offset < byteCharacters.length; offset += 512) {
-      const slice = byteCharacters.slice(offset, offset + 512);
-      const byteNumbers = new Array(slice.length);
-      for (let i = 0; i < slice.length; i++) {
-        byteNumbers[i] = slice.charCodeAt(i);
-      }
-      const byteArray = new Uint8Array(byteNumbers);
-      byteArrays.push(byteArray);
-    }
-
-    //creates blob
-    let blob = new Blob(byteArrays, {
-      type: type,
-    });
-
-    //download file
-    FileSaver.saveAs(blob, file?.fileName);
-  }
 }
 
 async function getBase64(file: File): Promise<string | ArrayBuffer | null> {
