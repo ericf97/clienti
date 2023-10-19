@@ -19,7 +19,7 @@
       </h2>
     </mat-card-header>
     <mat-card-content>
-      <span *ngIf="case.dateSaved" >Creado: {{case.dateSaved | date: 'short'}}</span>
+      <span *ngIf="case?.dateSaved" >Creado: {{case.dateSaved | date: 'short'}}</span>
       <div class="row my-3">
         <form [formGroup]="caseForm" autocomplete="off" (submit)="postCase()">
           <div class="row">
